@@ -1,5 +1,6 @@
 package com.menard.moodtracker.controller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(v == mBtnShowHistory){
-            //show the history
+            Intent historyActivity = new Intent(MainActivity.this, HistoryActivity.class);
+            startActivity(historyActivity);
         }
 
     }
