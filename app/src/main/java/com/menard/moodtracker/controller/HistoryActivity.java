@@ -1,19 +1,15 @@
-package com.menard.moodtracker;
+package com.menard.moodtracker.controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
-import android.widget.LinearLayout;
 
-public class MainActivity extends AppCompatActivity {
+import com.menard.moodtracker.R;
 
-
+public class HistoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
+        setContentView(R.layout.activity_history);
     }
 }
