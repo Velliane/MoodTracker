@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.menard.moodtracker.R;
+import com.menard.moodtracker.adapter.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GestureDetector.OnGestureListener {
 
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mBtnAddComments;
     /** Button Show History */
     private ImageButton mBtnShowHistory;
+
+    private int[] imagesPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnAddComments.setOnClickListener(this);
         mBtnShowHistory = findViewById(R.id.activity_main_history_btn);
         mBtnShowHistory.setOnClickListener(this);
+
+        imagesPager = new int[]{R.drawable.smiley_sad, R.drawable.smiley_disappointed, R.drawable.smiley_normal, R.drawable.smiley_happy, R.drawable.smiley_super_happy};
+        // Instantiate ViewPager and set Adapter
+        ViewPager pager = findViewById(R.id.activity_main_viewpager);
+        pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), getResources().getIntArray(R.array.colorPagesViewPager), imagesPager));
+        pager.setCurrentItem(2);
 
     }
 

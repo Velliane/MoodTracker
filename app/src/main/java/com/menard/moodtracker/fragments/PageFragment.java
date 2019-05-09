@@ -1,8 +1,8 @@
 package com.menard.moodtracker.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +17,7 @@ public class PageFragment extends Fragment {
     // Keys for Bundle
     private static final String KEY_POSITION = "position";
     private static final String KEY_COLOR = "color";
+    private static final String KEY_IMAGE = "image";
 
 
 
@@ -27,16 +28,16 @@ public class PageFragment extends Fragment {
     /**
      *
      * @param position position
-     * @param color color
      * @return A new instance of fragment PageFragment.
      */
-    public static PageFragment newInstance(int position, int color) {
+    public static PageFragment newInstance(int position, int color, int image) {
         // New fragment
         PageFragment fragment = new PageFragment();
         // Create bundle and adding data
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
         args.putInt(KEY_COLOR, color);
+        args.putInt(KEY_IMAGE, image);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,23 +55,14 @@ public class PageFragment extends Fragment {
 
         // Get data from Bundle
         int position = getArguments().getInt(KEY_POSITION, -1);
-        int color = getArguments().getInt(KEY_COLOR, -1);
+        int color = getArguments().getInt(KEY_COLOR,-1);
+        int image = getArguments().getInt(KEY_IMAGE, -1);
 
         // Update widget
-        switch (position){
-            case -2:
-                imgView.setImageResource(R.drawable.smiley_super_happy);
-                relativeLayout.setBackgroundColor(Color.BLACK);
-            case -1:
-                imgView.setImageResource(R.drawable.smiley_happy);
-            case 0:
-                imgView.setImageResource(R.drawable.smiley_normal);
-                relativeLayout.setBackgroundColor(Color.CYAN);
-            case 1:
-                imgView.setImageResource(R.drawable.smiley_sad);
-            case 2:
-                imgView.setImageResource(R.drawable.smiley_disappointed);
-        }
+        relativeLayout.setBackgroundColor(color);
+        imgView.setImageResource(image);
+
+        Log.e(getClass().getSimpleName(), "Page numbre"+position);
 
 
         return view;
