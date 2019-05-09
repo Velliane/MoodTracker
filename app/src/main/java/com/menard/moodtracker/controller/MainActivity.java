@@ -1,6 +1,9 @@
 package com.menard.moodtracker.controller;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -19,8 +22,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /** View RelativeLayout */
     private RelativeLayout mRelativeLayout;
-    /** ImageView */
-    private ImageView mImageView;
     /** Button add comments */
     private ImageButton mBtnAddComments;
     /** Button Show History */
@@ -32,14 +33,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mRelativeLayout = findViewById(R.id.activity_main_layout);
-        mImageView = findViewById(R.id.activity_main_img_view);
         mBtnAddComments = findViewById(R.id.activity_main_comments_btn);
         mBtnAddComments.setOnClickListener(this);
         mBtnShowHistory = findViewById(R.id.activity_main_history_btn);
         mBtnShowHistory.setOnClickListener(this);
-
-
-
 
     }
 
@@ -60,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
 
 
     @Override

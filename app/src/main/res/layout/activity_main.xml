@@ -4,18 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/cornflower_blue_65"
     android:id="@+id/activity_main_layout"
     tools:context=".controller.MainActivity">
 
-    <ImageView
-        android:id="@+id/activity_main_img_view"
-        android:layout_width="230dp"
-        android:layout_height="230dp"
-        android:layout_marginTop="205dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/smiley_normal"
-        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+
 
     <ImageButton
         android:id="@+id/activity_main_comments_btn"
