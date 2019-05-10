@@ -16,7 +16,7 @@ public class AlertDialogComment  {
      */
     public static void showAlertDialo(MainActivity mainActivity){
 
-        Dialog dialog = new Dialog(mainActivity);
+        final Dialog dialog = new Dialog(mainActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.alert_dialog_comment);
 
@@ -28,6 +28,7 @@ public class AlertDialogComment  {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
             }
         });
 

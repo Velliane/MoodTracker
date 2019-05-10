@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:hint="Commentaire"/>
+        android:hint="@string/alert_dialog_title"/>
 
     <EditText
         android:id="@+id/alert_dialog_edit_txt"
@@ -23,10 +23,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/alert_dialog_edit_txt"
-        android:layout_toLeftOf="@+id/alert_dialog_btn_ok"
+        android:layout_toStartOf="@+id/alert_dialog_btn_ok"
         android:background="@android:color/transparent"
         android:textColor="@color/colorAccent"
-        android:text="Annuler" />
+        android:text="@string/alert_dialog_btn_back" />
 
     <Button
         android:id="@+id/alert_dialog_btn_ok"
@@ -36,6 +36,6 @@
         android:layout_alignParentEnd="true"
         android:background="@android:color/transparent"
         android:textColor="@color/colorAccent"
-        android:text="Valider"/>
+        android:text="@string/allert_dialog_btn_validate"/>
 
 </RelativeLayout>
