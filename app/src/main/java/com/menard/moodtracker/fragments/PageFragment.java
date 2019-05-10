@@ -1,7 +1,8 @@
 package com.menard.moodtracker.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class PageFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_page, container, false);
@@ -62,7 +63,7 @@ public class PageFragment extends Fragment {
         relativeLayout.setBackgroundColor(color);
         imgView.setImageResource(image);
 
-        Log.e(getClass().getSimpleName(), "Page numbre"+position);
+        Log.e(getClass().getSimpleName(), "Page number"+position);
 
 
         return view;

@@ -1,31 +1,29 @@
 package com.menard.moodtracker.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.menard.moodtracker.Mood;
 import com.menard.moodtracker.fragments.PageFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    private int[] colors;
-    private int[] images;
 
-    public ViewPagerAdapter(FragmentManager fm, int[] colors, int[]images) {
+
+    public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        this.colors = colors;
-        this.images = images;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return PageFragment.newInstance(position, this.colors[position], this.images[position]);
+        return PageFragment.newInstance(position, Mood.values()[position].getColorRes(), Mood.values()[position].getSmileyRes());
     }
 
 
 
     @Override
     public int getCount() {
-        return 5;
+        return Mood.values().length;
     }
 }
