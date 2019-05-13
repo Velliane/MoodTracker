@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,18 +42,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ListViewHolder myViewHolder, int position) {
         Moods = Day.getMoods();
-        for(int i = 0; i<Moods.size(); i++){
-            myViewHolder.moodDay.setText(Instant.now().toString());
-            myViewHolder.moodDay.setBackgroundColor(Day.getColor());
-            if (Day.loadComment()!= null){
-                mContext = myViewHolder.btnComment.getContext();
-                myViewHolder.btnComment.setVisibility(View.VISIBLE);
-                myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(mContext, Day.loadComment(), Toast.LENGTH_LONG).show();
-                    }
-                });
+        if (Moods != null) {
+            for (int i = 0; i < Moods.size(); i++) {
+                myViewHolder.moodDay.setText(Instant.now().toString());
+                myViewHolder.mLayout.setBackgroundColor(Day.getColor());
+                if (Day.loadComment() != null) {
+                    mContext = myViewHolder.btnComment.getContext();
+                    myViewHolder.btnComment.setVisibility(View.VISIBLE);
+                    myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(mContext, Day.loadComment(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
         }
 
@@ -71,9 +74,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
         private final TextView moodDay;
         private final ImageButton btnComment;
+        private final LinearLayout mLayout;
 
         ListViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            mLayout = itemView.findViewById(R.id.history_layout);
             moodDay = itemView.findViewById(R.id.history_txt_view);
             btnComment = itemView.findViewById(R.id.history_btn_comments);
     }

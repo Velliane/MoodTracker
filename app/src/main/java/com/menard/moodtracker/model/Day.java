@@ -1,7 +1,5 @@
 package com.menard.moodtracker.model;
 
-import com.menard.moodtracker.R;
-
 import org.threeten.bp.Instant;
 
 import java.util.ArrayList;
