@@ -29,11 +29,12 @@ public class HistoryActivity extends AppCompatActivity {
         mHistory = findViewById(R.id.history_list);
         mHistory.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setReverseLayout(true);
         mHistory.setLayoutManager(mLayoutManager);
 
         // RecyclerView adapter
         mMoods = Day.getMoods();
-        HistoryAdapter adapter = new HistoryAdapter(mMoods);
+        HistoryAdapter adapter = new HistoryAdapter(this, mMoods);
         mHistory.setAdapter(adapter);
 
     }

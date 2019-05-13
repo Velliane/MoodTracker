@@ -2,6 +2,8 @@ package com.menard.moodtracker.model;
 
 import com.menard.moodtracker.R;
 
+import org.threeten.bp.Instant;
+
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -37,6 +39,7 @@ public class Day extends RealmObject {
 
 
     public String getDay() {
+        mDay = Instant.now().toString();
         return mDay;
     }
 
@@ -101,10 +104,11 @@ public class Day extends RealmObject {
             return comment;
         }
 
+
         public static ArrayList<Day> getMoods () {
 
             ArrayList<Day> moods = new ArrayList<>();
-            moods.add(new Day("Jour1", getColor(), loadComment()));
+            moods.add(new Day(Instant.now().toString(), getColor(), loadComment()));
 
             return moods;
         }

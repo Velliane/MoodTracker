@@ -1,4 +1,4 @@
-package com.menard.moodtracker.View;
+package com.menard.moodtracker.model;
 
 import android.app.Dialog;
 import android.view.View;
@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.controller.MainActivity;
-import com.menard.moodtracker.model.Day;
 
 public class AlertDialogComment  {
 

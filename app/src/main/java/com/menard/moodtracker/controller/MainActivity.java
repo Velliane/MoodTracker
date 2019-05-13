@@ -2,25 +2,27 @@ package com.menard.moodtracker.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.menard.moodtracker.R;
-import com.menard.moodtracker.View.AlertDialogComment;
+import com.menard.moodtracker.model.AlertDialogComment;
 import com.menard.moodtracker.adapter.ViewPagerAdapter;
-import com.menard.moodtracker.model.Day;
 import com.menard.moodtracker.model.Mood;
 
-import java.util.ArrayList;
+import org.threeten.bp.ZoneId;
 
 import io.realm.Realm;
-import io.realm.RealmQuery;
+import io.realm.internal.Util;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private static Preference showLocal;
     /** Button add comments */
     private ImageButton mBtnAddComments;
     /** Button Show History */
@@ -50,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Realm initialisation
         Realm.init(this);
         mRealm = Realm.getDefaultInstance();
+
+        // 310ABP initialisation
+        AndroidThreeTen.init(this);
 
     }
 

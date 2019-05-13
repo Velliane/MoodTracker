@@ -13,6 +13,8 @@ public class VerticalViewPager extends ViewPager {
 
     public VerticalViewPager(@NonNull Context context) {
         this(context, null);
+        setPageTransformer(true, new VerticalPageTransformer());
+        setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     public VerticalViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -49,6 +51,13 @@ public class VerticalViewPager extends ViewPager {
         boolean toHandle = super.onTouchEvent(flipXY(motionEvent));
         flipXY(motionEvent);
         return toHandle;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev){
+        boolean intercepted = super.onInterceptTouchEvent(flipXY(ev));
+        flipXY(ev); // return touch coordinates to original reference frame for any child views
+        return intercepted;
     }
 
 
