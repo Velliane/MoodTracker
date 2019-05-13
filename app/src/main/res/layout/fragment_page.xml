@@ -9,8 +9,7 @@
         android:id="@+id/activity_main_img_view"
         android:layout_width="230dp"
         android:layout_height="230dp"
-        android:layout_marginTop="205dp"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:src="@drawable/smiley_normal"
         />
 

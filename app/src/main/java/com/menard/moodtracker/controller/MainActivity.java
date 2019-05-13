@@ -2,17 +2,22 @@ package com.menard.moodtracker.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.menard.moodtracker.AlertDialogComment;
-import com.menard.moodtracker.Mood;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.menard.moodtracker.R;
+import com.menard.moodtracker.View.AlertDialogComment;
 import com.menard.moodtracker.adapter.ViewPagerAdapter;
+import com.menard.moodtracker.model.Day;
+import com.menard.moodtracker.model.Mood;
+
+import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -20,6 +25,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mBtnAddComments;
     /** Button Show History */
     private ImageButton mBtnShowHistory;
+
+    /** Realm database*/
+    public Realm mRealm;
+
 
 
     @Override
@@ -38,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem((Mood.values().length )/2);
 
+        // Realm initialisation
+        Realm.init(this);
+        mRealm = Realm.getDefaultInstance();
+
     }
 
     /**
@@ -48,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         if(v == mBtnAddComments){
-            AlertDialogComment.showAlertDialo(this);
+            AlertDialogComment.showAlertDialog(this);
         }
 
         if(v == mBtnShowHistory){
@@ -56,6 +69,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(historyActivity);
         }
 
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mRealm != null){
+            mRealm.close();
+        }
     }
 
 

@@ -1,7 +1,9 @@
-package com.menard.moodtracker;
+package com.menard.moodtracker.model;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
+
+import com.menard.moodtracker.R;
 
 public enum Mood {
     SAD(R.drawable.smiley_sad, R.color.faded_red),

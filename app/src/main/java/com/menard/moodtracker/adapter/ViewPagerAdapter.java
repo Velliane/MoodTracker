@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.menard.moodtracker.Mood;
+import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.fragments.PageFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {

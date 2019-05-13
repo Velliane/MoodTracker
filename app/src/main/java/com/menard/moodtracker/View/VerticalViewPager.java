@@ -1,4 +1,4 @@
-package com.menard.moodtracker;
+package com.menard.moodtracker.View;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -71,4 +71,6 @@ public class VerticalViewPager extends ViewPager {
             }
         }
     }
+
+
 }
