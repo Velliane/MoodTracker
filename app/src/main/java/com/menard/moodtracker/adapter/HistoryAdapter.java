@@ -41,23 +41,24 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ListViewHolder myViewHolder, int position) {
+
         //Moods = DataHelper.getMoods();
-        if (Moods != null) {
-            for (int i = 0; i < Moods.size(); i++) {
-                myViewHolder.moodDay.setText(Instant.now().toString());
-                myViewHolder.mLayout.setBackgroundColor(mContext.getResources().getColor(MoodForTheDay.getColor()));
-                if (DataHelper.loadComment() != null) {
-                    mContext = myViewHolder.btnComment.getContext();
-                    myViewHolder.btnComment.setVisibility(View.VISIBLE);
-                    myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(mContext, DataHelper.loadComment(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-        }
+        //if (Moods != null) {
+            //for (int i = 0; i < Moods.size(); i++) {
+                //myViewHolder.moodDay.setText(Instant.now().toString());
+                //myViewHolder.mLayout.setBackgroundColor(mContext.getResources().getColor(MoodForTheDay.getColor()));
+                //if (DataHelper.loadComment() != null) {
+                    //mContext = myViewHolder.btnComment.getContext();
+                    //myViewHolder.btnComment.setVisibility(View.VISIBLE);
+                    //myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
+                        //@Override
+                        //public void onClick(View v) {
+                            //Toast.makeText(mContext, DataHelper.loadComment(), Toast.LENGTH_LONG).show();
+                        //}
+                    //});
+                //}
+            //}
+        //}
 
     }
 
@@ -72,7 +73,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
      */
     class ListViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView moodDay;
+        private final TextView moodDate;
         private final ImageButton btnComment;
         private final LinearLayout mLayout;
 
@@ -80,7 +81,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
             super(itemView);
 
             mLayout = itemView.findViewById(R.id.history_layout);
-            moodDay = itemView.findViewById(R.id.history_txt_view);
+            moodDate = itemView.findViewById(R.id.history_txt_view);
             btnComment = itemView.findViewById(R.id.history_btn_comments);
     }
 }

@@ -2,9 +2,13 @@ package com.menard.moodtracker;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.menard.moodtracker.model.MoodForTheDay;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DataHelper {
@@ -42,10 +46,10 @@ public class DataHelper {
 
     /**
      * Add an object MoodForTheDay to database
-     * @param moodForTheDay moodfortheday
+     * @param moodForTheDay the object
      * @return insert
      */
-    public long addMoods(MoodForTheDay moodForTheDay){
+    public long addMoodDay(MoodForTheDay moodForTheDay){
         //-- create a ContentValues  ->work like a HashMap
         ContentValues values = new ContentValues();
         values.put(COL_ID, moodForTheDay.getId());
@@ -62,7 +66,7 @@ public class DataHelper {
      * @param moodForTheDay the object
      * @return database updated
      */
-    public int updateMoods (int id, MoodForTheDay moodForTheDay){
+    public int updateMoodDay (int id, MoodForTheDay moodForTheDay){
         ContentValues values = new ContentValues();
         values.put(COL_DATE, moodForTheDay.getDate());
         values.put(COL_COLOR, MoodForTheDay.getColor());
@@ -71,6 +75,52 @@ public class DataHelper {
         return mDatabase.update(TABLE_MOODFORTHEDAY, values, COL_ID + " = "+id, null);
     }
 
+    /**
+     * Get an object by his id
+     * @param id id
+     * @return object MoodForTheDay
+     */
+    public MoodForTheDay getMoodDay(int id){
+        MoodForTheDay moodForTheDay = new MoodForTheDay();
+
+        Cursor cursor = mDatabase.rawQuery("SELECT * FROM "+ TABLE_MOODFORTHEDAY + "WHERE "+
+                COL_ID+ "=" + id, null);
+        if (cursor.moveToFirst()){
+            moodForTheDay.setId(cursor.getInt(cursor.getColumnIndex(COL_ID)));
+            moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COL_DATE)));
+            moodForTheDay.setColor(cursor.getInt(cursor.getColumnIndex(COL_COLOR)));
+            moodForTheDay.setComment(cursor.getString(cursor.getColumnIndex(COL_COMMENT)));
+            cursor.close();
+        }
+        return moodForTheDay;
+    }
+
+    /**
+     * Return an ArrayList of all the MoodForDay
+     * @return ArrayList
+     */
+    public List<MoodForTheDay> getAllMoods(){
+        List<MoodForTheDay> mList = new ArrayList<>();
+
+        //-- Select all the object --
+        String selectQuery = "SELECT * FROM "+ TABLE_MOODFORTHEDAY;
+        Cursor cursor = mDatabase.rawQuery(selectQuery, null);
+
+        //-- Adding them to list --
+        if(cursor.moveToFirst()){
+            do {
+                MoodForTheDay moodForTheDay = new MoodForTheDay();
+                moodForTheDay.setId(Integer.parseInt(cursor.getString(0)));
+                moodForTheDay.setDate(cursor.getString(1));
+                moodForTheDay.setColor(Integer.parseInt(cursor.getString(2)));
+                moodForTheDay.setComment(cursor.getString(3));
+
+                mList.add(moodForTheDay);
+            }while (cursor.moveToNext());
+        }
+
+        return mList;
+    }
 
 
 

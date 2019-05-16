@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.menard.moodtracker.DataHelper;
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.controller.MainActivity;
 

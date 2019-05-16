@@ -53,13 +53,6 @@ public class VerticalViewPager extends ViewPager {
         return toHandle;
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev){
-        boolean intercepted = super.onInterceptTouchEvent(flipXY(ev));
-        flipXY(ev); // return touch coordinates to original reference frame for any child views
-        return intercepted;
-    }
-
 
     // PageTransformer //
     private static final class VerticalPageTransformer implements ViewPager.PageTransformer{
