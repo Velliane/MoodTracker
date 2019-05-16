@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.menard.moodtracker.DataHelper;
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.controller.MainActivity;
 
@@ -40,7 +41,7 @@ public class AlertDialogComment  {
             @Override
             public void onClick(View v) {
                 String mComment = txtComment.getText().toString();
-                Day.saveComment(mComment);
+                //DataHelper.saveComment(mComment);
                 Toast.makeText(mainActivity, "Commentaire mis à jour", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }

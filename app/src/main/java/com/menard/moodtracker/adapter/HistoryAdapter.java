@@ -1,6 +1,7 @@
 package com.menard.moodtracker.adapter;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +13,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.menard.moodtracker.DataHelper;
 import com.menard.moodtracker.R;
-import com.menard.moodtracker.model.Day;
-
+import com.menard.moodtracker.model.MoodForTheDay;
 import org.threeten.bp.Instant;
-
 import java.util.ArrayList;
 
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListViewHolder> {
 
     private Context mContext;
-    private ArrayList<Day> Moods;
+    private ArrayList<MoodForTheDay> Moods;
 
 
-    public HistoryAdapter(Context context, ArrayList<Day> items){
+    public HistoryAdapter(Context context, ArrayList<MoodForTheDay> items){
         mContext = context;
         Moods = items;
     }
@@ -41,18 +41,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ListViewHolder myViewHolder, int position) {
-        Moods = Day.getMoods();
+        //Moods = DataHelper.getMoods();
         if (Moods != null) {
             for (int i = 0; i < Moods.size(); i++) {
                 myViewHolder.moodDay.setText(Instant.now().toString());
-                myViewHolder.mLayout.setBackgroundColor(Day.getColor());
-                if (Day.loadComment() != null) {
+                myViewHolder.mLayout.setBackgroundColor(mContext.getResources().getColor(MoodForTheDay.getColor()));
+                if (DataHelper.loadComment() != null) {
                     mContext = myViewHolder.btnComment.getContext();
                     myViewHolder.btnComment.setVisibility(View.VISIBLE);
                     myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(mContext, Day.loadComment(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, DataHelper.loadComment(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
