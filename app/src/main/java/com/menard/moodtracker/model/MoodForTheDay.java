@@ -10,7 +10,7 @@ public class MoodForTheDay extends RealmObject {
 
     @PrimaryKey
     private int mId;
-    private String mDate;
+    private static String mDate;
     @ColorRes
     private static int mColor;
     private static String mComment;
@@ -38,7 +38,7 @@ public class MoodForTheDay extends RealmObject {
         mId = id;
     }
 
-    public String getDate() {
+    public static String getDate() {
         return mDate;
     }
 

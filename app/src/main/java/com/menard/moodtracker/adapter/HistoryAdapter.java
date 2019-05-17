@@ -1,7 +1,6 @@
 package com.menard.moodtracker.adapter;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.menard.moodtracker.DataHelper;
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.model.MoodForTheDay;
-import org.threeten.bp.Instant;
-import java.util.ArrayList;
+
+import java.util.List;
 
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListViewHolder> {
 
     private Context mContext;
-    private ArrayList<MoodForTheDay> Moods;
+    private List<MoodForTheDay> Moods;
 
 
-    public HistoryAdapter(Context context, ArrayList<MoodForTheDay> items){
+    public HistoryAdapter(Context context, List<MoodForTheDay> items){
         mContext = context;
         Moods = items;
     }
@@ -42,23 +41,23 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ListViewHolder myViewHolder, int position) {
 
-        //Moods = DataHelper.getMoods();
-        //if (Moods != null) {
-            //for (int i = 0; i < Moods.size(); i++) {
-                //myViewHolder.moodDay.setText(Instant.now().toString());
-                //myViewHolder.mLayout.setBackgroundColor(mContext.getResources().getColor(MoodForTheDay.getColor()));
-                //if (DataHelper.loadComment() != null) {
-                    //mContext = myViewHolder.btnComment.getContext();
-                    //myViewHolder.btnComment.setVisibility(View.VISIBLE);
-                    //myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
-                        //@Override
-                        //public void onClick(View v) {
-                            //Toast.makeText(mContext, DataHelper.loadComment(), Toast.LENGTH_LONG).show();
-                        //}
-                    //});
-                //}
-            //}
-        //}
+        Moods = DataHelper.getAllMoods();
+        if (Moods != null) {
+            for (int i = 0; i < Moods.size(); i++) {
+                myViewHolder.moodDate.setText(MoodForTheDay.getDate());
+                myViewHolder.mLayout.setBackgroundColor(mContext.getResources().getColor(MoodForTheDay.getColor()));
+                if (MoodForTheDay.getComment() != null) {
+                    mContext = myViewHolder.btnComment.getContext();
+                    myViewHolder.btnComment.setVisibility(View.VISIBLE);
+                    myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(mContext, MoodForTheDay.getComment(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        }
 
     }
 

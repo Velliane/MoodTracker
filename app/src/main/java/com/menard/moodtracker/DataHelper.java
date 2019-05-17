@@ -23,7 +23,7 @@ public class DataHelper {
     private static final String COL_COLOR = "Color";
     private static final String COL_COMMENT = "Comment";
 
-    private SQLiteDatabase mDatabase;
+    private static SQLiteDatabase mDatabase;
     private BaseSQLite mBaseSQLite;
 
     public DataHelper (Context context){
@@ -49,7 +49,7 @@ public class DataHelper {
      * @param moodForTheDay the object
      * @return insert
      */
-    public long addMoodDay(MoodForTheDay moodForTheDay){
+    public static long addMoodDay(MoodForTheDay moodForTheDay){
         //-- create a ContentValues  ->work like a HashMap
         ContentValues values = new ContentValues();
         values.put(COL_ID, moodForTheDay.getId());
@@ -66,7 +66,7 @@ public class DataHelper {
      * @param moodForTheDay the object
      * @return database updated
      */
-    public int updateMoodDay (int id, MoodForTheDay moodForTheDay){
+    public static int updateMoodDay (int id, MoodForTheDay moodForTheDay){
         ContentValues values = new ContentValues();
         values.put(COL_DATE, moodForTheDay.getDate());
         values.put(COL_COLOR, MoodForTheDay.getColor());
@@ -76,15 +76,15 @@ public class DataHelper {
     }
 
     /**
-     * Get an object by his id
-     * @param id id
+     * Get an object by his date
+     * @param date Date
      * @return object MoodForTheDay
      */
-    public MoodForTheDay getMoodDay(int id){
+    public static MoodForTheDay getMoodDay(String date){
         MoodForTheDay moodForTheDay = new MoodForTheDay();
 
         Cursor cursor = mDatabase.rawQuery("SELECT * FROM "+ TABLE_MOODFORTHEDAY + "WHERE "+
-                COL_ID+ "=" + id, null);
+                COL_DATE+ "=" + date, null);
         if (cursor.moveToFirst()){
             moodForTheDay.setId(cursor.getInt(cursor.getColumnIndex(COL_ID)));
             moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COL_DATE)));
@@ -99,7 +99,7 @@ public class DataHelper {
      * Return an ArrayList of all the MoodForDay
      * @return ArrayList
      */
-    public List<MoodForTheDay> getAllMoods(){
+    public static List<MoodForTheDay> getAllMoods(){
         List<MoodForTheDay> mList = new ArrayList<>();
 
         //-- Select all the object --

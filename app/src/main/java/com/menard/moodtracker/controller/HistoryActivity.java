@@ -11,15 +11,16 @@ import com.menard.moodtracker.R;
 import com.menard.moodtracker.adapter.HistoryAdapter;
 import com.menard.moodtracker.model.MoodForTheDay;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
 
+    /** RecyclerView */
     RecyclerView mHistory;
-
+    /** LayoutManager */
     LinearLayoutManager mLayoutManager;
-
-    private ArrayList<MoodForTheDay> mMoods;
+    /** List of the Moods */
+    private List<MoodForTheDay> mMoods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class HistoryActivity extends AppCompatActivity {
         mHistory.setLayoutManager(mLayoutManager);
 
         // RecyclerView adapter
-        //mMoods = DataHelper.getMoods();
+        mMoods = DataHelper.getAllMoods();
         HistoryAdapter adapter = new HistoryAdapter(this, mMoods);
         mHistory.setAdapter(adapter);
 
