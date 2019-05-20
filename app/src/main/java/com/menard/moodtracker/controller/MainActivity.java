@@ -1,10 +1,7 @@
 package com.menard.moodtracker.controller;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -12,23 +9,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.menard.moodtracker.DataHelper;
+import com.menard.moodtracker.Database.DataHelper;
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.View.VerticalViewPager;
 import com.menard.moodtracker.adapter.ViewPagerAdapter;
-import com.menard.moodtracker.model.AlertDialogComment;
+import com.menard.moodtracker.fragments.AlertDialogFragmentComment;
 import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
 
-import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
-
 
 import io.realm.Realm;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AlertDialogFragmentComment.Listener {
 
 
     /** Button add comments */
@@ -39,12 +33,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public Realm mRealm;
     /** MoodForTheDay */
     public MoodForTheDay mMoodForTheDay;
-    /** Preferences */
-    private static SharedPreferences mPreference;
-    /** Key Preferences */
-    private static String KEY_DATEZONE = "KEY_DATEZONE";
     /** Date */
     private String mDate;
+
+    /** SQLite Database */
+    private DataHelper mDataHelper;
 
 
     @Override
@@ -52,12 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mDataHelper = new DataHelper(this);
+
         mBtnAddComments = findViewById(R.id.activity_main_comments_btn);
         mBtnAddComments.setOnClickListener(this);
         mBtnShowHistory = findViewById(R.id.activity_main_history_btn);
         mBtnShowHistory.setOnClickListener(this);
 
-        mPreference = getSharedPreferences(KEY_DATEZONE, MODE_PRIVATE);
 
         //-- Instantiate ViewPager and set Adapter --
         ViewPager pager = findViewById(R.id.activity_main_viewpager);
@@ -80,12 +74,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // }
 
         //-- Select the MoodForTheDay with the today's date --
-        mMoodForTheDay = DataHelper.getMoodDay(mDate);
-
         //-- If doesn't exist, create new --
-        if (DataHelper.getMoodDay(mDate) == null) {
+        mDataHelper.open();
+        if (mDataHelper.getMoodDay(mDate) == null) {
             mMoodForTheDay = new MoodForTheDay();
-            DataHelper.addMoodDay(mMoodForTheDay);
+            mMoodForTheDay.setDate(mDate);
+            mDataHelper.addMoodDay(mMoodForTheDay);
+        } else {
+            mMoodForTheDay = mDataHelper.getMoodDay(mDate);
         }
 
 
@@ -98,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         if (v == mBtnAddComments) {
-            AlertDialogComment.showAlertDialog(this);
+           new AlertDialogFragmentComment().onCreateDialog(null).show();
         }
 
         if (v == mBtnShowHistory) {
@@ -111,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Return the date of the current Day
-     *
      * @return the date
      */
     public String getDateDay() {
@@ -128,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mRealm != null) {
             mRealm.close();
         }
+    }
+
+    @Override
+    public void onCommentSelected(String comment) {
+
     }
 
 

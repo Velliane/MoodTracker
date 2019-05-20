@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.menard.moodtracker.DataHelper;
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.model.MoodForTheDay;
 
@@ -30,6 +29,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
         Moods = items;
     }
 
+    public void setData(List<MoodForTheDay> items){
+        Moods = items;
+        notifyDataSetChanged();
+    }
+
+
+
     @NonNull
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -41,7 +47,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ListViewHolder myViewHolder, int position) {
 
-        Moods = DataHelper.getAllMoods();
+
         if (Moods != null) {
             for (int i = 0; i < Moods.size(); i++) {
                 myViewHolder.moodDate.setText(MoodForTheDay.getDate());

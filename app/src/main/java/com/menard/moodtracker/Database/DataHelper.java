@@ -1,10 +1,11 @@
-package com.menard.moodtracker;
+package com.menard.moodtracker.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.menard.moodtracker.Database.BaseSQLite;
 import com.menard.moodtracker.model.MoodForTheDay;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class DataHelper {
     private static final String COL_COLOR = "Color";
     private static final String COL_COMMENT = "Comment";
 
-    private static SQLiteDatabase mDatabase;
+    private SQLiteDatabase mDatabase;
     private BaseSQLite mBaseSQLite;
 
     public DataHelper (Context context){
@@ -49,13 +50,13 @@ public class DataHelper {
      * @param moodForTheDay the object
      * @return insert
      */
-    public static long addMoodDay(MoodForTheDay moodForTheDay){
+    public long addMoodDay(MoodForTheDay moodForTheDay){
         //-- create a ContentValues  ->work like a HashMap
         ContentValues values = new ContentValues();
         values.put(COL_ID, moodForTheDay.getId());
         values.put(COL_DATE, moodForTheDay.getDate());
         values.put(COL_COLOR, MoodForTheDay.getColor());
-        values.put(COL_COMMENT, MoodForTheDay.getComment());
+        //values.put(COL_COMMENT, MoodForTheDay.getComment());
 
         return mDatabase.insert(TABLE_MOODFORTHEDAY, null, values);
     }
@@ -66,11 +67,11 @@ public class DataHelper {
      * @param moodForTheDay the object
      * @return database updated
      */
-    public static int updateMoodDay (int id, MoodForTheDay moodForTheDay){
+    public int updateMoodDay (int id, MoodForTheDay moodForTheDay){
         ContentValues values = new ContentValues();
         values.put(COL_DATE, moodForTheDay.getDate());
         values.put(COL_COLOR, MoodForTheDay.getColor());
-        values.put(COL_COMMENT, MoodForTheDay.getComment());
+        //values.put(COL_COMMENT, MoodForTheDay.getComment());
 
         return mDatabase.update(TABLE_MOODFORTHEDAY, values, COL_ID + " = "+id, null);
     }
@@ -80,11 +81,11 @@ public class DataHelper {
      * @param date Date
      * @return object MoodForTheDay
      */
-    public static MoodForTheDay getMoodDay(String date){
+    public MoodForTheDay getMoodDay(String date){
         MoodForTheDay moodForTheDay = new MoodForTheDay();
 
-        Cursor cursor = mDatabase.rawQuery("SELECT * FROM "+ TABLE_MOODFORTHEDAY + "WHERE "+
-                COL_DATE+ "=" + date, null);
+        Cursor cursor = mDatabase.rawQuery("SELECT * FROM "+ TABLE_MOODFORTHEDAY + " WHERE "+
+                COL_DATE+ "= " + date, null);
         if (cursor.moveToFirst()){
             moodForTheDay.setId(cursor.getInt(cursor.getColumnIndex(COL_ID)));
             moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COL_DATE)));
@@ -99,7 +100,7 @@ public class DataHelper {
      * Return an ArrayList of all the MoodForDay
      * @return ArrayList
      */
-    public static List<MoodForTheDay> getAllMoods(){
+    public List<MoodForTheDay> getAllMoodDay(){
         List<MoodForTheDay> mList = new ArrayList<>();
 
         //-- Select all the object --
@@ -118,8 +119,15 @@ public class DataHelper {
                 mList.add(moodForTheDay);
             }while (cursor.moveToNext());
         }
-
+        cursor.close();
         return mList;
+    }
+
+    public long addComment(String comment, String date){
+        ContentValues values = new ContentValues();
+        values.put(COL_COMMENT, comment);
+
+        return mDatabase.update(TABLE_MOODFORTHEDAY, values, COL_DATE + "= \"" + date+ "\"", null);
     }
 
 

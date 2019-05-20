@@ -1,4 +1,4 @@
-package com.menard.moodtracker;
+package com.menard.moodtracker.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
