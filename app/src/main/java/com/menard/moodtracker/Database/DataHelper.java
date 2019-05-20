@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.menard.moodtracker.Database.BaseSQLite;
 import com.menard.moodtracker.model.MoodForTheDay;
 
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ public class DataHelper {
         ContentValues values = new ContentValues();
         values.put(COL_ID, moodForTheDay.getId());
         values.put(COL_DATE, moodForTheDay.getDate());
-        values.put(COL_COLOR, MoodForTheDay.getColor());
+        values.put(COL_COLOR, moodForTheDay.getColor());
         //values.put(COL_COMMENT, MoodForTheDay.getComment());
 
         return mDatabase.insert(TABLE_MOODFORTHEDAY, null, values);
@@ -70,7 +69,7 @@ public class DataHelper {
     public int updateMoodDay (int id, MoodForTheDay moodForTheDay){
         ContentValues values = new ContentValues();
         values.put(COL_DATE, moodForTheDay.getDate());
-        values.put(COL_COLOR, MoodForTheDay.getColor());
+        values.put(COL_COLOR, moodForTheDay.getColor());
         //values.put(COL_COMMENT, MoodForTheDay.getComment());
 
         return mDatabase.update(TABLE_MOODFORTHEDAY, values, COL_ID + " = "+id, null);
@@ -83,6 +82,7 @@ public class DataHelper {
      */
     public MoodForTheDay getMoodDay(String date){
         MoodForTheDay moodForTheDay = new MoodForTheDay();
+        mDatabase = mBaseSQLite.getReadableDatabase();
 
         Cursor cursor = mDatabase.rawQuery("SELECT * FROM "+ TABLE_MOODFORTHEDAY + " WHERE "+
                 COL_DATE+ "= " + date, null);
@@ -102,6 +102,7 @@ public class DataHelper {
      */
     public List<MoodForTheDay> getAllMoodDay(){
         List<MoodForTheDay> mList = new ArrayList<>();
+        mDatabase = mBaseSQLite.getReadableDatabase();
 
         //-- Select all the object --
         String selectQuery = "SELECT * FROM "+ TABLE_MOODFORTHEDAY;

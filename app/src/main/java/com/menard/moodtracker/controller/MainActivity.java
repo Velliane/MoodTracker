@@ -69,9 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //-- Get today's date --
         mDate = getDateDay();
-        // if (mMoodForTheDay.getDate() != mDate){
-        // mMoodForTheDay = new MoodForTheDay()
-        // }
+
 
         //-- Select the MoodForTheDay with the today's date --
         //-- If doesn't exist, create new --

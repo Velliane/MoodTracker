@@ -10,10 +10,10 @@ public class MoodForTheDay extends RealmObject {
 
     @PrimaryKey
     private int mId;
-    private static String mDate;
+    private String mDate;
     @ColorRes
-    private static int mColor;
-    private static String mComment;
+    private int mColor;
+    private String mComment;
 
     // -- Constructor --
     private MoodForTheDay(int id, String day, @ColorRes int color, String comment) {
@@ -38,7 +38,7 @@ public class MoodForTheDay extends RealmObject {
         mId = id;
     }
 
-    public static String getDate() {
+    public String getDate() {
         return mDate;
     }
 
@@ -47,7 +47,7 @@ public class MoodForTheDay extends RealmObject {
     }
 
     @ColorRes
-    public static int getColor() {
+    public int getColor() {
         return mColor;
     }
 
@@ -55,7 +55,7 @@ public class MoodForTheDay extends RealmObject {
         mColor = color;
     }
 
-    public static String getComment() {
+    public String getComment() {
         return mComment;
     }
 
