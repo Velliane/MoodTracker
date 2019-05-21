@@ -71,17 +71,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listener = new VerticalViewPagerListener();
         pager.setOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-        pager.setCurrentItem((Mood.values().length) / 2);
+        //-- Set the current page --
+        if(BUNDLE_CURRENT_PAGE == null) {
+            pager.setCurrentItem((Mood.values().length) / 2);
+        }else
+            pager.setCurrentItem(listener.getCurrentPage());
+
 
         //-- 310ABP initialisation --
         AndroidThreeTen.init(this);
 
-        //if(savedInstanceState != null){
-            //pager.setCurrentItem(savedInstanceState.getInt(BUNDLE_CURRENT_PAGE, 2));
-        //}
-        //-- Save the page selected in the SharedPreferences --
-        listener.getCurrentPage();
-        listener.onPageSelected(pager.getCurrentItem());
+        mDataHelper.getAllMoodDay();
+
 
         //-- Test --
         if (mMoodForTheDay == mDataHelper.getMoodDay(getDateDay())){
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (v == mBtnAddComments) {
            new AlertDialogFragmentComment().newInstance().show(getSupportFragmentManager(), "AlertDialog");
+           mDataHelper.addComment(mMoodForTheDay.getComment(), mMoodForTheDay.getDate());
         }
 
         if (v == mBtnShowHistory) {
@@ -146,12 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        return Mood.values()[position].getColorRes();
     }
 
-    //@Override
-    //public void onSaveInstanceState(Bundle outState) {
-        //super.onSaveInstanceState(outState);
-        //outState.putInt(BUNDLE_CURRENT_PAGE, pager.getCurrentItem());
 
-    //}
 
     /**
      * Listener for the VerticalViewPager
