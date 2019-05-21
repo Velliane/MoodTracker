@@ -10,14 +10,12 @@ import androidx.annotation.Nullable;
 public class BaseSQLite extends SQLiteOpenHelper {
 
     private static final String TABLE_MOODFORTHEDAY = "table_moods";
-    private static final String COLUMN_ID = "ID";
     private static final String COLUMN_DATE = "Date";
     private static final String COLUMN_COLOR = "Color";
     private static final String COLUMN_COMMENT = "Comment";
 
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_MOODFORTHEDAY +
-            " ("+ COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COLUMN_DATE + " TEXT NOT NULL, "
+            " (" + COLUMN_DATE + " TEXT PRIMARY KEY NOT NULL, "
             + COLUMN_COLOR + " INTEGER NOT NULL,"
             + COLUMN_COMMENT + " TEXT );";
 

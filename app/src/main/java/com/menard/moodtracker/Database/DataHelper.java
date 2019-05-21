@@ -114,9 +114,9 @@ public class DataHelper {
         if (cursor.moveToFirst()) {
             do {
                 MoodForTheDay moodForTheDay = new MoodForTheDay();
-                moodForTheDay.setDate(cursor.getString(1));
-                moodForTheDay.setColor(Integer.parseInt(cursor.getString(2)));
-                moodForTheDay.setComment(cursor.getString(3));
+                moodForTheDay.setDate(cursor.getString(0));
+                moodForTheDay.setColor(Integer.parseInt(cursor.getString(1)));
+                moodForTheDay.setComment(cursor.getString(2));
 
                 mList.add(moodForTheDay);
             } while (cursor.moveToNext());

@@ -3,11 +3,13 @@ package com.menard.moodtracker.controller;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -41,8 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences mSharedPreferences;
     public final String PREF_KEY_MAINSHARED = "PREF_KEY_MAINSHARED";
 
+    /** Bundle for saveInstance */
+    public String BUNDLE_CURRENT_PAGE = "BUNDLE_CURRENT_PAGE";
     /** SQLite Database */
     private DataHelper mDataHelper;
+
+    VerticalViewPagerListener listener;
+    ViewPager pager;
 
 
     @Override
@@ -60,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSharedPreferences = getSharedPreferences(PREF_KEY_MAINSHARED, MODE_PRIVATE);
 
         //-- Instantiate ViewPager and set Adapter --
-        ViewPager pager = findViewById(R.id.activity_main_viewpager);
-        VerticalViewPagerListener listener = new VerticalViewPagerListener();
+        pager = findViewById(R.id.activity_main_viewpager);
+        listener = new VerticalViewPagerListener();
         pager.setOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem((Mood.values().length) / 2);
@@ -69,18 +76,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //-- 310ABP initialisation --
         AndroidThreeTen.init(this);
 
-        //-- Get today's date --
-        mDate = getDateDay();
-
+        //if(savedInstanceState != null){
+            //pager.setCurrentItem(savedInstanceState.getInt(BUNDLE_CURRENT_PAGE, 2));
+        //}
+        //-- Save the page selected in the SharedPreferences --
+        listener.getCurrentPage();
+        listener.onPageSelected(pager.getCurrentItem());
 
         //-- Test --
-        if (mMoodForTheDay == mDataHelper.getMoodDay(mDate)){
+        if (mMoodForTheDay == mDataHelper.getMoodDay(getDateDay())){
             mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
             onCommentSelected(mMoodForTheDay.getComment());
             mDataHelper.updateMoodDay(mDate, mMoodForTheDay);
         } else {
             mMoodForTheDay = new MoodForTheDay();
-            mMoodForTheDay.setDate(mDate);
+            mMoodForTheDay.setDate(getDateDay());
             mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
             onCommentSelected(mMoodForTheDay.getComment());
             mDataHelper.addMoodDay(mMoodForTheDay);
@@ -96,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         if (v == mBtnAddComments) {
-           new AlertDialogFragmentComment().onCreateDialog(null).show();
+           new AlertDialogFragmentComment().newInstance().show(getSupportFragmentManager(), "AlertDialog");
         }
 
         if (v == mBtnShowHistory) {
@@ -136,6 +146,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        return Mood.values()[position].getColorRes();
     }
 
+    //@Override
+    //public void onSaveInstanceState(Bundle outState) {
+        //super.onSaveInstanceState(outState);
+        //outState.putInt(BUNDLE_CURRENT_PAGE, pager.getCurrentItem());
+
+    //}
 
     /**
      * Listener for the VerticalViewPager
@@ -146,11 +162,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onPageSelected(int position) {
-            currentPage = position;
+           mSharedPreferences.edit().putInt(BUNDLE_CURRENT_PAGE, position).apply();
         }
 
         public int getCurrentPage() {
-            return currentPage;
+           return currentPage = mSharedPreferences.getInt(BUNDLE_CURRENT_PAGE, 2);
         }
 
 
