@@ -37,18 +37,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public Realm mRealm;
     /** MoodForTheDay */
     public MoodForTheDay mMoodForTheDay;
-    /** Date */
-    private String mDate;
 
+    /** Shared Preferences */
     SharedPreferences mSharedPreferences;
+    /** Key for Shared Preferences */
     public final String PREF_KEY_MAINSHARED = "PREF_KEY_MAINSHARED";
-
-    /** Bundle for saveInstance */
-    public String BUNDLE_CURRENT_PAGE = "BUNDLE_CURRENT_PAGE";
+    public String PREF_KEY_CURRENT_PAGE = "PREF_KEY_CURRENT_PAGE";
+    private String PREF_KEY_COMMENT = "PREK_KEY_COMMENT";
     /** SQLite Database */
     private DataHelper mDataHelper;
 
+    /** VerticalViewPager Listener */
     VerticalViewPagerListener listener;
+    /** ViewPager */
     ViewPager pager;
 
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pager.setOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         //-- Set the current page --
-        if(BUNDLE_CURRENT_PAGE == null) {
+        if(PREF_KEY_CURRENT_PAGE == null) {
             pager.setCurrentItem((Mood.values().length) / 2);
         }else
             pager.setCurrentItem(listener.getCurrentPage());
@@ -87,13 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //-- Test --
         if (mMoodForTheDay == mDataHelper.getMoodDay(getDateDay())){
             mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
-            onCommentSelected(mMoodForTheDay.getComment());
-            mDataHelper.updateMoodDay(mDate, mMoodForTheDay);
+            onCommentSelected(getCommentFromSharefPref());
+            mDataHelper.updateMoodDay(mMoodForTheDay.getDate(), mMoodForTheDay);
         } else {
             mMoodForTheDay = new MoodForTheDay();
             mMoodForTheDay.setDate(getDateDay());
             mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
-            onCommentSelected(mMoodForTheDay.getComment());
+            onCommentSelected(getCommentFromSharefPref());
             mDataHelper.addMoodDay(mMoodForTheDay);
         }
 
@@ -138,9 +139,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Saving the comment get from the AlertDialogFragmentComment
+     * @param comment the comment
+     */
     @Override
     public void onCommentSelected(String comment) {
         mDataHelper.addComment(comment, mMoodForTheDay.getDate());
+        saveCommentInSharedPref(comment);
+    }
+
+    public void saveCommentInSharedPref(String comment){
+        mSharedPreferences.edit().putString(PREF_KEY_COMMENT, comment).apply();
+    }
+
+    public String getCommentFromSharefPref(){
+       return mSharedPreferences.getString(PREF_KEY_COMMENT, null);
     }
 
     @ColorRes
@@ -159,11 +173,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onPageSelected(int position) {
-           mSharedPreferences.edit().putInt(BUNDLE_CURRENT_PAGE, position).apply();
+           mSharedPreferences.edit().putInt(PREF_KEY_CURRENT_PAGE, position).apply();
         }
 
         public int getCurrentPage() {
-           return currentPage = mSharedPreferences.getInt(BUNDLE_CURRENT_PAGE, 2);
+           return currentPage = mSharedPreferences.getInt(PREF_KEY_CURRENT_PAGE, 2);
         }
 
 
