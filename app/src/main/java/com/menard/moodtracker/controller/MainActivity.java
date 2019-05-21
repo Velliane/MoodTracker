@@ -1,10 +1,12 @@
 package com.menard.moodtracker.controller;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -36,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /** Date */
     private String mDate;
 
+    SharedPreferences mSharedPreferences;
+    public final String PREF_KEY_MAINSHARED = "PREF_KEY_MAINSHARED";
+
     /** SQLite Database */
     private DataHelper mDataHelper;
 
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnShowHistory = findViewById(R.id.activity_main_history_btn);
         mBtnShowHistory.setOnClickListener(this);
 
+        mSharedPreferences = getSharedPreferences(PREF_KEY_MAINSHARED, MODE_PRIVATE);
 
         //-- Instantiate ViewPager and set Adapter --
         ViewPager pager = findViewById(R.id.activity_main_viewpager);
@@ -60,10 +66,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem((Mood.values().length) / 2);
 
-        //-- Realm initialisation --
-        //Realm.init(this);
-        //mRealm = Realm.getDefaultInstance();
-
         //-- 310ABP initialisation --
         AndroidThreeTen.init(this);
 
@@ -71,15 +73,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDate = getDateDay();
 
 
-        //-- Select the MoodForTheDay with the today's date --
-        //-- If doesn't exist, create new --
-        mDataHelper.open();
-        if (mDataHelper.getMoodDay(mDate) == null) {
+        //-- Test --
+        if (mMoodForTheDay == mDataHelper.getMoodDay(mDate)){
+            mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
+            onCommentSelected(mMoodForTheDay.getComment());
+            mDataHelper.updateMoodDay(mDate, mMoodForTheDay);
+        } else {
             mMoodForTheDay = new MoodForTheDay();
             mMoodForTheDay.setDate(mDate);
+            mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
+            onCommentSelected(mMoodForTheDay.getComment());
             mDataHelper.addMoodDay(mMoodForTheDay);
-        } else {
-            mMoodForTheDay = mDataHelper.getMoodDay(mDate);
         }
 
 
@@ -114,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -125,7 +128,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onCommentSelected(String comment) {
+        mDataHelper.addComment(comment, mMoodForTheDay.getDate());
+    }
 
+    @ColorRes
+    private int getColorMood(int position){
+       return Mood.values()[position].getColorRes();
     }
 
 
@@ -134,16 +142,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public class VerticalViewPagerListener extends VerticalViewPager.SimpleOnPageChangeListener {
 
-        private int currentPage;
+        public int currentPage;
 
         @Override
         public void onPageSelected(int position) {
             currentPage = position;
         }
 
-        int getCurrentPage() {
+        public int getCurrentPage() {
             return currentPage;
         }
+
+
     }
 
 

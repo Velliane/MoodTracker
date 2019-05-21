@@ -2,6 +2,7 @@ package com.menard.moodtracker.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.menard.moodtracker.R;
+import com.menard.moodtracker.controller.MainActivity;
 
 public class AlertDialogFragmentComment extends DialogFragment {
 
@@ -30,7 +32,7 @@ public class AlertDialogFragmentComment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
 
         final AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

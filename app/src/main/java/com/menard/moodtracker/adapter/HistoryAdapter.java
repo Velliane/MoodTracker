@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
     private Context mContext;
     private List<MoodForTheDay> Moods;
+
 
 
     public HistoryAdapter(Context context, List<MoodForTheDay> items){
@@ -49,16 +51,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
 
         if (Moods != null) {
-            for (int i = 0; i < Moods.size(); i++) {
-                myViewHolder.moodDate.setText(MoodForTheDay.getDate());
-                myViewHolder.mLayout.setBackgroundColor(mContext.getResources().getColor(MoodForTheDay.getColor()));
-                if (MoodForTheDay.getComment() != null) {
+            for (final MoodForTheDay mMoodForTheDay : Moods) {
+                myViewHolder.moodDate.setText(mMoodForTheDay.getDate());
+                myViewHolder.mLayout.setBackgroundResource(mMoodForTheDay.getColor());
+                // -- If comment not null --
+                if (mMoodForTheDay.getComment() != null) {
                     mContext = myViewHolder.btnComment.getContext();
                     myViewHolder.btnComment.setVisibility(View.VISIBLE);
                     myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(mContext, MoodForTheDay.getComment(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, mMoodForTheDay.getComment(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }

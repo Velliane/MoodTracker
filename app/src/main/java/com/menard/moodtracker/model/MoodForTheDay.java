@@ -9,15 +9,13 @@ public class MoodForTheDay extends RealmObject {
 
 
     @PrimaryKey
-    private int mId;
     private String mDate;
     @ColorRes
     private int mColor;
     private String mComment;
 
     // -- Constructor --
-    private MoodForTheDay(int id, String day, @ColorRes int color, String comment) {
-        mId = id;
+    private MoodForTheDay(String day, @ColorRes int color, String comment) {
         mDate = day;
         mColor = color;
         mComment = comment;
@@ -30,13 +28,6 @@ public class MoodForTheDay extends RealmObject {
 
 
     // -- Getter and Setter --
-    public int getId() {
-        return mId;
-    }
-
-    public void setId(int id) {
-        mId = id;
-    }
 
     public String getDate() {
         return mDate;
