@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.function.ToDoubleBiFunction;
+
 public class AlertDialogFragmentComment extends DialogFragment {
 
     private Listener mListener;
@@ -43,6 +45,7 @@ public class AlertDialogFragmentComment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String mComment = editText.getText().toString();
+                // TODO afficher le précedent commentaire s'il existe dans les SharedPreferences
                 mListener.onCommentSelected(mComment);
                 Toast.makeText(getContext(), "Commentaire mis à jour", Toast.LENGTH_SHORT).show();
                 dismiss();

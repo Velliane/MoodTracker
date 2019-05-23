@@ -42,6 +42,7 @@ public class HistoryActivity extends AppCompatActivity {
         mMoods = mDataHelper.getAllMoodDay();
         HistoryAdapter adapter = new HistoryAdapter(this, mMoods);
         mHistory.setAdapter(adapter);
+        //adapter.setData(mMoods);
 
     }
 

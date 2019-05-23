@@ -16,6 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.model.MoodForTheDay;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -23,19 +27,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
     private Context mContext;
     private List<MoodForTheDay> Moods;
+    private MoodForTheDay mMoodForTheDay;
 
 
-
-    public HistoryAdapter(Context context, List<MoodForTheDay> items){
+    public HistoryAdapter(Context context, List<MoodForTheDay> items) {
         mContext = context;
         Moods = items;
     }
 
-    public void setData(List<MoodForTheDay> items){
+    public void setData(List<MoodForTheDay> items) {
         Moods = items;
         notifyDataSetChanged();
     }
-
 
 
     @NonNull
@@ -49,26 +52,69 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ListViewHolder myViewHolder, int position) {
 
+        mMoodForTheDay = Moods.get(position);
 
-        if (Moods != null) {
-            for (final MoodForTheDay mMoodForTheDay : Moods) {
-                myViewHolder.moodDate.setText(mMoodForTheDay.getDate());
-                myViewHolder.mLayout.setBackgroundResource(mMoodForTheDay.getColor());
-                // -- If comment not null --
-                if (mMoodForTheDay.getComment() != null) {
-                    mContext = myViewHolder.btnComment.getContext();
-                    myViewHolder.btnComment.setVisibility(View.VISIBLE);
-                    myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(mContext, mMoodForTheDay.getComment(), Toast.LENGTH_LONG).show();
-                        }
-                    });
+        int width = myViewHolder.mLayout.getWidth();
+        @ColorRes int color = mMoodForTheDay.getColor();
+        LinearLayout.LayoutParams layoutParams = null;
+
+        myViewHolder.moodDate.setText(setDateText(mMoodForTheDay.getDate()));
+        myViewHolder.mLayout.setBackgroundResource(mMoodForTheDay.getColor());
+        switch (color) {
+            case R.color.faded_red:
+                layoutParams = new LinearLayout.LayoutParams(width / 5, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                break;
+            case R.color.warm_grey:
+                layoutParams = new LinearLayout.LayoutParams((width / 5) * 2, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                break;
+            case R.color.cornflower_blue_65:
+                layoutParams = new LinearLayout.LayoutParams((width / 5) * 3, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                break;
+            case R.color.light_sage:
+                layoutParams = new LinearLayout.LayoutParams((width / 5) * 4, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                break;
+            case R.color.banana_yellow:
+                layoutParams = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                break;
+        }
+        //--
+        //myViewHolder.mLayout.setLayoutParams(layoutParams);
+
+        // -- If comment not null --
+        if (mMoodForTheDay.getComment() != null) {
+            mContext = myViewHolder.btnComment.getContext();
+            myViewHolder.btnComment.setVisibility(View.VISIBLE);
+            myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, mMoodForTheDay.getComment(), Toast.LENGTH_LONG).show();
                 }
-            }
+            });
+        }
+    }
+
+    private String setDateText(String date) {
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
+        String dayText = "";
+        if (date.equals(today.minusDays(1).toString())) {
+            dayText = "Hier";
+        } else if (date.equals(today.minusDays(2).toString())) {
+            dayText = "Avant-hier";
+        }else if(date.equals(today.minusDays(3).toString())) {
+            dayText = "Il y a trois jours";
+        }else if (date.equals(today.minusDays(4).toString())) {
+            dayText = "Il y a quatre jours";
+        }else if (date.equals(today.minusDays(5).toString())) {
+            dayText = "Il y a cinq jours";
+        }else if (date.equals(today.minusDays(6).toString())) {
+            dayText = "Il y a six jours";
+        }else if (date.equals(today.minusDays(7).toString())) {
+            dayText = "Il y a sept jours";
         }
 
+        return dayText;
     }
+
 
     @Override
     public int getItemCount() {
@@ -83,7 +129,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
         private final TextView moodDate;
         private final ImageButton btnComment;
-        private final LinearLayout mLayout;
+        public final LinearLayout mLayout;
 
         ListViewHolder(@NonNull View itemView) {
             super(itemView);
