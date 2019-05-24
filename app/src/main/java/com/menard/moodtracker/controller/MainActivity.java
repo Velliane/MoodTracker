@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnShowHistory = findViewById(R.id.activity_main_history_btn);
         mBtnShowHistory.setOnClickListener(this);
 
+        //-- 310ABP initialisation --
+        AndroidThreeTen.init(this);
+
         mSharedPreferences = getSharedPreferences(PREF_KEY_MAINSHARED, MODE_PRIVATE);
 
         //-- Instantiate ViewPager and set Adapter --
@@ -78,22 +81,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //-- Set the current page --
-        //if(PREF_KEY_CURRENT_PAGE == null) {
-            //pager.setCurrentItem((Mood.values().length) / 2);
-        //}else
-            //pager.setCurrentItem(listener.getCurrentPage());
+        if(PREF_KEY_CURRENT_PAGE == null) {
+            pager.setCurrentItem((Mood.values().length) / 2);
+        }else
+            pager.setCurrentItem(listener.getCurrentPage());
 
         //-- Get the current date from the Shared Preferences --
-        if (!PREF_KEY_TODAY_DATE.equals(LocalDate.now(ZoneId.systemDefault()).toString())){
-            pager.setCurrentItem((Mood.values().length) / 2);
-            today = getDateDay();
-        } else {
-            today = mSharedPreferences.getString(PREF_KEY_TODAY_DATE, null);
-            pager.setCurrentItem(listener.getCurrentPage());
-        }
+        //if (!PREF_KEY_TODAY_DATE.equals(LocalDate.now(ZoneId.systemDefault()).toString())){
+            //pager.setCurrentItem((Mood.values().length) / 2);
+            //today = getDateDay();
+            //listener.onPageSelected(pager.getCurrentItem());
+        //} else {
+            //today = mSharedPreferences.getString(PREF_KEY_TODAY_DATE, null);
+            //if(PREF_KEY_CURRENT_PAGE != null)
+            //pager.setCurrentItem(listener.getCurrentPage());
+        //}
 
-        //-- 310ABP initialisation --
-        AndroidThreeTen.init(this);
+
 
 
         //-- Test --
