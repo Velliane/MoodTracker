@@ -2,14 +2,13 @@ package com.menard.moodtracker.controller;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -53,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /** ViewPager */
     ViewPager pager;
 
+
     String today;
 
 
@@ -76,18 +76,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pager.setOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 
+
         //-- Set the current page --
-        if(PREF_KEY_CURRENT_PAGE == null) {
-            pager.setCurrentItem((Mood.values().length) / 2);
-        }else
-            pager.setCurrentItem(listener.getCurrentPage());
+        //if(PREF_KEY_CURRENT_PAGE == null) {
+            //pager.setCurrentItem((Mood.values().length) / 2);
+        //}else
+            //pager.setCurrentItem(listener.getCurrentPage());
 
         //-- Get the current date from the Shared Preferences --
-        //if (PREF_KEY_TODAY_DATE == null){
-            //today = getDateDay();
-        //} else {
-            //today = mSharedPreferences.getString(PREF_KEY_TODAY_DATE, null);
-        //}
+        if (!PREF_KEY_TODAY_DATE.equals(LocalDate.now(ZoneId.systemDefault()).toString())){
+            pager.setCurrentItem((Mood.values().length) / 2);
+            today = getDateDay();
+        } else {
+            today = mSharedPreferences.getString(PREF_KEY_TODAY_DATE, null);
+            pager.setCurrentItem(listener.getCurrentPage());
+        }
 
         //-- 310ABP initialisation --
         AndroidThreeTen.init(this);
@@ -176,14 +179,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public class VerticalViewPagerListener extends VerticalViewPager.SimpleOnPageChangeListener {
 
-        public int currentPage;
+        int currentPage;
 
         @Override
         public void onPageSelected(int position) {
            mSharedPreferences.edit().putInt(PREF_KEY_CURRENT_PAGE, position).apply();
         }
 
-        public int getCurrentPage() {
+        int getCurrentPage() {
            return currentPage = mSharedPreferences.getInt(PREF_KEY_CURRENT_PAGE, 2);
         }
 

@@ -54,7 +54,7 @@ public class VerticalViewPager extends ViewPager {
     }
 
 
-    // PageTransformer //
+    //-- PageTransformer --
     private static final class VerticalPageTransformer implements ViewPager.PageTransformer{
 
         @Override

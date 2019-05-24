@@ -34,7 +34,7 @@ public class DataHelper {
     /**
      * Open the database
      */
-    public void open() {
+    private void open() {
         mDatabase = mBaseSQLite.getWritableDatabase();
     }
 

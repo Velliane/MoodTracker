@@ -19,7 +19,6 @@ import com.menard.moodtracker.model.MoodForTheDay;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -56,7 +55,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
         int width = myViewHolder.mLayout.getWidth();
         @ColorRes int color = mMoodForTheDay.getColor();
-        LinearLayout.LayoutParams layoutParams = null;
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) myViewHolder.mLayout.getLayoutParams();
 
         myViewHolder.moodDate.setText(setDateText(mMoodForTheDay.getDate()));
         myViewHolder.mLayout.setBackgroundResource(mMoodForTheDay.getColor());
@@ -78,7 +77,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
                 break;
         }
         //--
-        //myViewHolder.mLayout.setLayoutParams(layoutParams);
+
+        myViewHolder.mLayout.setLayoutParams(layoutParams);
 
         // -- If comment not null --
         if (mMoodForTheDay.getComment() != null) {
@@ -129,7 +129,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
         private final TextView moodDate;
         private final ImageButton btnComment;
-        public final LinearLayout mLayout;
+        private final LinearLayout mLayout;
 
         ListViewHolder(@NonNull View itemView) {
             super(itemView);

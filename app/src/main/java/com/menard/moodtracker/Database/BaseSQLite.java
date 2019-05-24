@@ -20,7 +20,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
             + COLUMN_COMMENT + " TEXT );";
 
 
-    public BaseSQLite(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    BaseSQLite(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 

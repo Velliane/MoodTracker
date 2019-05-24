@@ -19,28 +19,25 @@ public class HistoryActivity extends AppCompatActivity {
     RecyclerView mHistory;
     /** LayoutManager */
     LinearLayoutManager mLayoutManager;
-    /** List of the Moods */
-    private List<MoodForTheDay> mMoods;
-    /** SQLite Database */
-    private DataHelper mDataHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        mDataHelper = new DataHelper(this);
+        //-- DataHelper --
+        DataHelper dataHelper = new DataHelper(this);
 
-        // Recycler View
+        //-- Recycler View --
         mHistory = findViewById(R.id.history_list);
         mHistory.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setReverseLayout(true);
         mHistory.setLayoutManager(mLayoutManager);
 
-        // RecyclerView adapter
-        mMoods = mDataHelper.getAllMoodDay();
-        HistoryAdapter adapter = new HistoryAdapter(this, mMoods);
+        //-- RecyclerView adapter --
+        List<MoodForTheDay> moods = dataHelper.getAllMoodDay();
+        HistoryAdapter adapter = new HistoryAdapter(this, moods);
         mHistory.setAdapter(adapter);
         //adapter.setData(mMoods);
 

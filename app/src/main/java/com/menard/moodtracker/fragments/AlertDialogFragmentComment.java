@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import java.util.function.ToDoubleBiFunction;
-
 public class AlertDialogFragmentComment extends DialogFragment {
 
     private Listener mListener;
@@ -26,8 +24,7 @@ public class AlertDialogFragmentComment extends DialogFragment {
     }
 
     public AlertDialogFragmentComment newInstance (){
-        AlertDialogFragmentComment fragmentComment = new AlertDialogFragmentComment();
-        return fragmentComment;
+        return new AlertDialogFragmentComment();
     }
 
 

@@ -57,6 +57,7 @@ public class PageFragment extends Fragment {
         ImageView imgView = view.findViewById(R.id.activity_main_img_view);
 
         // Get data from Bundle
+        assert getArguments() != null;
         int position = getArguments().getInt(KEY_POSITION, -1);
         @ColorRes int color = getArguments().getInt(KEY_COLOR,-1);
         int image = getArguments().getInt(KEY_IMAGE, -1);
