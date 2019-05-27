@@ -18,7 +18,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        return PageFragment.newInstance(position, Mood.values()[position].getColorRes(), Mood.values()[position].getSmileyRes());
+        return PageFragment.newInstance(position, Mood.values()[position].getColorRes(), Mood.values()[position].getSmileyRes(), Mood.values()[position].getAudioRes());
     }
 
 

@@ -2,13 +2,10 @@ package com.menard.moodtracker.model;
 
 import androidx.annotation.ColorRes;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
-public class MoodForTheDay extends RealmObject {
+public class MoodForTheDay{
 
 
-    @PrimaryKey
+
     private String mDate;
     @ColorRes
     private int mColor;

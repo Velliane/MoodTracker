@@ -75,7 +75,8 @@ public class BaseSQLite extends SQLiteOpenHelper {
         values.put(COLUMN_COLOR, moodForTheDay.getColor());
         //values.put(COL_COMMENT, MoodForTheDay.getComment());
 
-        open().insertWithOnConflict(TABLE_MOODFORTHEDAY, null, values, null);
+        open().insert(TABLE_MOODFORTHEDAY, null, values);
+        //open().insertWithOnConflict(TABLE_MOODFORTHEDAY, null, values, null);
 
     }
 

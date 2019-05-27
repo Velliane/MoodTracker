@@ -13,10 +13,15 @@
         <activity android:name=".controller.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                    <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.SEND" />
+                    <data android:mimeType="vnd.android-dir/mms-sms" />
+                    <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
     </application>
+
+
 
 </manifest>
