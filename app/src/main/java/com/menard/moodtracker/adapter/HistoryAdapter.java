@@ -24,13 +24,11 @@ import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListViewHolder> {
 
-    private Context mContext;
     private List<MoodForTheDay> Moods;
     private MoodForTheDay mMoodForTheDay;
 
 
-    public HistoryAdapter(Context context, List<MoodForTheDay> items) {
-        mContext = context;
+    public HistoryAdapter(List<MoodForTheDay> items) {
         Moods = items;
     }
 
@@ -55,7 +53,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
         int width = myViewHolder.mLayout.getWidth();
         @ColorRes int color = mMoodForTheDay.getColor();
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) myViewHolder.mLayout.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = myViewHolder.mLayout.getLayoutParams();
 
         myViewHolder.moodDate.setText(setDateText(mMoodForTheDay.getDate()));
         myViewHolder.mLayout.setBackgroundResource(mMoodForTheDay.getColor());
@@ -82,12 +80,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
         // -- If comment not null --
         if (mMoodForTheDay.getComment() != null) {
-            mContext = myViewHolder.btnComment.getContext();
             myViewHolder.btnComment.setVisibility(View.VISIBLE);
             myViewHolder.btnComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, mMoodForTheDay.getComment(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), mMoodForTheDay.getComment(), Toast.LENGTH_LONG).show();
                 }
             });
         }

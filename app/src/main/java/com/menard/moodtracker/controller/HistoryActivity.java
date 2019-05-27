@@ -17,8 +17,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     /** RecyclerView */
     RecyclerView mHistory;
-    /** LayoutManager */
-    LinearLayoutManager mLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +30,13 @@ public class HistoryActivity extends AppCompatActivity {
         //-- Recycler View --
         mHistory = findViewById(R.id.history_list);
         mHistory.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setReverseLayout(true);
         mHistory.setLayoutManager(mLayoutManager);
 
         //-- RecyclerView adapter --
         List<MoodForTheDay> moods = dataHelper.getAllMoodDay();
-        HistoryAdapter adapter = new HistoryAdapter(this, moods);
+        HistoryAdapter adapter = new HistoryAdapter(moods);
         mHistory.setAdapter(adapter);
         //adapter.setData(mMoods);
 

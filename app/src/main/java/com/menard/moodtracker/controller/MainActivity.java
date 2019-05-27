@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.menard.moodtracker.Database.DataHelper;
+import com.menard.moodtracker.Database.BaseSQLite;
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.View.VerticalViewPager;
 import com.menard.moodtracker.adapter.ViewPagerAdapter;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String PREF_KEY_COMMENT = "PREK_KEY_COMMENT";
     private String PREF_KEY_TODAY_DATE = "PREF_KEY_TODAY_DATE";
     /** SQLite Database */
-    private DataHelper mDataHelper;
+    private BaseSQLite mBaseSQLite;
 
     /** VerticalViewPager Listener */
     VerticalViewPagerListener listener;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDataHelper = new DataHelper(this);
+        mBaseSQLite = new BaseSQLite(this);
 
         mBtnAddComments = findViewById(R.id.activity_main_comments_btn);
         mBtnAddComments.setOnClickListener(this);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //-- 310ABP initialisation --
         AndroidThreeTen.init(this);
 
-        mSharedPreferences = getSharedPreferences(PREF_KEY_MAINSHARED, MODE_PRIVATE);
+        //mSharedPreferences = getSharedPreferences(PREF_KEY_MAINSHARED, MODE_PRIVATE);
 
         //-- Instantiate ViewPager and set Adapter --
         pager = findViewById(R.id.activity_main_viewpager);
@@ -97,21 +97,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //pager.setCurrentItem(listener.getCurrentPage());
         //}
 
+        today = getDateDay();
 
 
 
         //-- Test --
-        if (mMoodForTheDay == mDataHelper.getMoodDay(today)){
+        if (mMoodForTheDay == mBaseSQLite.getMoodDay(today)){
             mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
             //mMoodForTheDay.setComment(getCommentFromSharefPref());
-            mDataHelper.addComment(getCommentFromSharefPref(), mMoodForTheDay.getDate());
-            mDataHelper.updateMoodDay(mMoodForTheDay.getDate(), mMoodForTheDay);
+            //mDataHelper.addComment(getCommentFromSharefPref(), mMoodForTheDay.getDate());
+            mBaseSQLite.updateMoodDay(mMoodForTheDay.getDate(), mMoodForTheDay);
         } else {
             mMoodForTheDay = new MoodForTheDay();
             mMoodForTheDay.setDate(today);
             mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
-            onCommentSelected(getCommentFromSharefPref());
-            mDataHelper.addMoodDay(mMoodForTheDay);
+            //onCommentSelected(getCommentFromSharefPref());
+            mBaseSQLite.addMoodDay(mMoodForTheDay);
+
         }
 
 
@@ -144,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
         System.out.println(today);
         //-- Save the current day in the Shared Preferences --
-        mSharedPreferences.edit().putString(PREF_KEY_TODAY_DATE, today.toString()).apply();
+        //mSharedPreferences.edit().putString(PREF_KEY_TODAY_DATE, today.toString()).apply();
         return today.toString();
 
     }
@@ -163,13 +165,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onCommentSelected(String comment) {
-        mSharedPreferences.edit().putString(PREF_KEY_COMMENT, comment).apply();
+        //mSharedPreferences.edit().putString(PREF_KEY_COMMENT, comment).apply();
+        //mettre à jour le comment du jour avec SQL
     }
 
 
-    public String getCommentFromSharefPref(){
-       return mSharedPreferences.getString(PREF_KEY_COMMENT, null);
-    }
+    //public String getCommentFromSharefPref(){
+       //return mSharedPreferences.getString(PREF_KEY_COMMENT, null);
+    //}
 
     @ColorRes
     private int getColorMood(int position){
@@ -187,7 +190,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onPageSelected(int position) {
-           mSharedPreferences.edit().putInt(PREF_KEY_CURRENT_PAGE, position).apply();
+          // mSharedPreferences.edit().putInt(PREF_KEY_CURRENT_PAGE, position).apply();
+            //mettre à jour l'humeur du jour avec SQL
         }
 
         int getCurrentPage() {
