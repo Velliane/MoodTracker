@@ -12,7 +12,7 @@ public class MoodForTheDay{
     private String mComment;
 
     // -- Constructor --
-    private MoodForTheDay(String day, @ColorRes int color, String comment) {
+    public MoodForTheDay(String day, @ColorRes int color, String comment) {
         mDate = day;
         mColor = color;
         mComment = comment;

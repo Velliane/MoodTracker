@@ -1,6 +1,6 @@
 package com.menard.moodtracker.adapter;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -92,19 +91,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
         String dayText = "";
         if (date.equals(today.minusDays(1).toString())) {
-            dayText = "Hier";
+            dayText = Resources.getSystem().getString(R.string.history_before_yesterday);
         } else if (date.equals(today.minusDays(2).toString())) {
-            dayText = "Avant-hier";
+            dayText = Resources.getSystem().getString(R.string.history_three_days_ago);
         }else if(date.equals(today.minusDays(3).toString())) {
-            dayText = "Il y a trois jours";
+            dayText = Resources.getSystem().getString(R.string.history_four_days_ago);
         }else if (date.equals(today.minusDays(4).toString())) {
-            dayText = "Il y a quatre jours";
+            dayText = Resources.getSystem().getString(R.string.history_five_day_ago);
         }else if (date.equals(today.minusDays(5).toString())) {
-            dayText = "Il y a cinq jours";
+            dayText = Resources.getSystem().getString(R.string.history_six_days_ago);
         }else if (date.equals(today.minusDays(6).toString())) {
-            dayText = "Il y a six jours";
+            dayText = Resources.getSystem().getString(R.string.history_seven_days_ago);
         }else if (date.equals(today.minusDays(7).toString())) {
-            dayText = "Il y a sept jours";
+            dayText = Resources.getSystem().getString(R.string.history_a_week_ago);
         }
 
         return dayText;

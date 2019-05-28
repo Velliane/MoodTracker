@@ -9,7 +9,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
+
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +58,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
      */
     private SQLiteDatabase open() {
         return this.getWritableDatabase();
-        // faire un retour de la base
     }
 
     /**
@@ -65,7 +68,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
     }
 
     /**
-     * Add an object MoodForTheDay to database
+     * Add an object MoodForTheDay to database and update it if already exist
      * @param moodForTheDay the object
      */
     public void addMoodDay(MoodForTheDay moodForTheDay) {
@@ -73,26 +76,53 @@ public class BaseSQLite extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, moodForTheDay.getDate());
         values.put(COLUMN_COLOR, moodForTheDay.getColor());
-        //values.put(COL_COMMENT, MoodForTheDay.getComment());
 
-        open().insert(TABLE_MOODFORTHEDAY, null, values);
-        //open().insertWithOnConflict(TABLE_MOODFORTHEDAY, null, values, null);
+        open().insertWithOnConflict(TABLE_MOODFORTHEDAY, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
     }
 
     /**
-     * Update an object
-     *
-     * @param moodForTheDay the object
+     * Add comment in the database according to the date
+     * @param comment the comment
+     * @param date the date
      */
-    public void updateMoodDay(String date, MoodForTheDay moodForTheDay) {
+    public void addComment(String comment, String date) {
         ContentValues values = new ContentValues();
-        values.put(COLUMN_COLOR, moodForTheDay.getColor());
-        //values.put(COL_COMMENT, MoodForTheDay.getComment());
+        values.put(COLUMN_COMMENT, comment);
 
         open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE + "= \"" + date + "\"", null);
     }
 
+    /**
+     * Save the color of the Mood
+     * @param position the page selected
+     * @param date the date
+     */
+    public void addColor (int position, String date) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_COLOR, Mood.values()[position].getColorRes());
+
+        open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE+ "= \"" + date + "\"", null);
+    }
+
+    /**
+     * Get the comment saved for the MoodForTheDay
+     * @param date the date
+     * @return the comment
+     */
+    public String getComment(String date){
+        String comment = "Aucun commentaire";
+
+        Cursor cursor = open().rawQuery("SELECT * FROM " + TABLE_MOODFORTHEDAY + " WHERE " +
+                COLUMN_DATE + "= \"" + date + "\"", null);
+        if (cursor.moveToFirst()) {
+            comment = cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT));
+            cursor.close();
+        }
+
+        return comment;
+
+    }
 
     /**
      * Get an object by his date
@@ -116,7 +146,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
     }
 
     /**
-     * Return an ArrayList of all the MoodForDay sorted by the date
+     * Return an ArrayList of all the MoodForDay sorted by the date from yesterday to a week ago
      * @return ArrayList
      */
     @NonNull
@@ -125,29 +155,24 @@ public class BaseSQLite extends SQLiteOpenHelper {
         //mDatabase = mBaseSQLite.getReadableDatabase();
 
         //-- Select all the object --
-        String selectQuery = "SELECT * FROM " + TABLE_MOODFORTHEDAY + " ORDER BY " + COLUMN_DATE + " ASC ";
+        String selectQuery = "SELECT * FROM " + TABLE_MOODFORTHEDAY
+                + " WHERE " + COLUMN_DATE + " BETWEEN " + "\"" +  LocalDate.now(ZoneId.systemDefault()).minusDays(1).toString() + "\""+ " AND " +"\"" + LocalDate.now(ZoneId.systemDefault()).minusDays(7).toString()+ "\""
+                + " ORDER BY " + COLUMN_DATE + " ASC ";
         Cursor cursor = open().rawQuery(selectQuery, null);
 
         //-- Adding them to list --
         if (cursor.moveToFirst()) {
             do {
                 MoodForTheDay moodForTheDay = new MoodForTheDay();
-                moodForTheDay.setDate(cursor.getString(0)); //curso.getColumnIndex
-                moodForTheDay.setColor(Integer.parseInt(cursor.getString(1)));
-                moodForTheDay.setComment(cursor.getString(2));
+                moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
+                moodForTheDay.setColor(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_COLOR))));
+                moodForTheDay.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
 
                 mList.add(moodForTheDay);
             } while (cursor.moveToNext());
         }
         cursor.close();
         return mList;
-    }
-
-    public void addComment(String comment, String date) {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_COMMENT, comment);
-
-        open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE + "= \"" + date + "\"", null);
     }
 
 

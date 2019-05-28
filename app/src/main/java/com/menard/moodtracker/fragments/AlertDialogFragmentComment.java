@@ -5,12 +5,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.menard.moodtracker.Database.BaseSQLite;
+import com.menard.moodtracker.R;
+
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
 
 public class AlertDialogFragmentComment extends DialogFragment {
 
@@ -34,21 +41,27 @@ public class AlertDialogFragmentComment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         final EditText editText = new EditText(getContext());
+        final BaseSQLite baseSQLite = new BaseSQLite(getContext());
+
+        String lastComment = baseSQLite.getComment(LocalDate.now(ZoneId.systemDefault()).toString());
+        if(lastComment != null) {
+            editText.setText(lastComment);
+            editText.setSelection(lastComment.length());
+        }
 
         return new AlertDialog.Builder(getContext())
-        .setMessage("Commentaires")
+        .setMessage(getResources().getString(R.string.alert_dialog_title))
         .setView(editText)
-        .setPositiveButton("Confirmer", new DialogInterface.OnClickListener() {
+        .setPositiveButton(getResources().getString(R.string.alert_dialog_btn_validate), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String mComment = editText.getText().toString();
-                // TODO afficher le précedent commentaire s'il existe dans les SharedPreferences
                 mListener.onCommentSelected(mComment);
-                Toast.makeText(getContext(), "Commentaire mis à jour", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.alert_dialog_toast), Toast.LENGTH_SHORT).show();
                 dismiss();
             }
         })
-        .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+        .setNegativeButton(getResources().getString(R.string.alert_dialog_btn_back), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dismiss();

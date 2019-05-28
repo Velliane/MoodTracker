@@ -11,7 +11,7 @@ public enum Mood {
     DISAPPOINTED(R.drawable.smiley_disappointed, R.color.warm_grey, R.raw.normal, 40/100),
     NORMAL(R.drawable.smiley_normal, R.color.cornflower_blue_65, R.raw.normal, 60/100),
     HAPPY(R.drawable.smiley_happy, R.color.light_sage, R.raw.normal, 80/100),
-    VERYHAPPY(R.drawable.smiley_super_happy, R.color.banana_yellow, R.raw.normal, 100);
+    VERYHAPPY(R.drawable.smiley_super_happy, R.color.banana_yellow, R.raw.normal, 1);
 
 
 

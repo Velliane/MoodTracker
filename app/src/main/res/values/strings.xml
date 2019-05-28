@@ -6,8 +6,18 @@
     <!-- Alert Dialog -->
     <string name="alert_dialog_title">Commentaire</string>
     <string name="alert_dialog_btn_back">Annuler</string>
-    <string name="allert_dialog_btn_validate">Valider</string>
+    <string name="alert_dialog_btn_validate">Valider</string>
+    <string name="alert_dialog_toast">Commentaire mis à jour</string>
 
+    <!-- History -->
+    <string name="history_yesterday">Hier</string>
+    <string name="history_before_yesterday">Avant-hier</string>
+    <string name="history_three_days_ago">Il y a trois jours</string>
+    <string name="history_four_days_ago">Il y a quatre jours</string>
+    <string name="history_five_day_ago">Il y a cinq jours</string>
+    <string name="history_six_days_ago">Il y a six jours</string>
+    <string name="history_seven_days_ago">Il y a sept jours</string>
+    <string name="history_a_week_ago">Il y a une semaine</string>
 
 
 </resources>

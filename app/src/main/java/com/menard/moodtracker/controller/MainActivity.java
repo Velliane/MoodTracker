@@ -1,16 +1,11 @@
 package com.menard.moodtracker.controller;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-import androidx.annotation.ColorRes;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,15 +18,9 @@ import com.menard.moodtracker.fragments.AlertDialogFragmentComment;
 import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
 
-import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 
-import java.net.URI;
-
-import io.realm.Realm;
-
-import static java.net.Proxy.Type.HTTP;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AlertDialogFragmentComment.Listener {
 
@@ -42,22 +31,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mBtnShowHistory;
     /** Button Send Message */
     private ImageButton mBtnSendMessage;
-    /** Realm database */
-    public Realm mRealm;
     /** MoodForTheDay */
     public MoodForTheDay mMoodForTheDay;
-
-    /** Key for Shared Preferences */
-
-    public String PREF_KEY_CURRENT_PAGE = "PREF_KEY_CURRENT_PAGE";
-    /** SQLite Database */
-    private BaseSQLite mBaseSQLite;
 
     /** VerticalViewPager Listener */
     VerticalViewPagerListener listener;
     /** ViewPager */
     ViewPager pager;
-
+    /** BaseSQLite */
+    BaseSQLite mBaseSQLite;
 
     String today;
 
@@ -87,41 +69,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 
 
-        //-- Set the current page --
-        if(PREF_KEY_CURRENT_PAGE == null) {
-            pager.setCurrentItem((Mood.values().length) / 2);
-        }else
-            //pager.setCurrentItem(listener.getCurrentPage());
-
-        //-- Get the current date from the Shared Preferences --
-        //if (!PREF_KEY_TODAY_DATE.equals(LocalDate.now(ZoneId.systemDefault()).toString())){
-            //pager.setCurrentItem((Mood.values().length) / 2);
-            //today = getDateDay();
-            //listener.onPageSelected(pager.getCurrentItem());
-        //} else {
-            //today = mSharedPreferences.getString(PREF_KEY_TODAY_DATE, null);
-            //if(PREF_KEY_CURRENT_PAGE != null)
-            //pager.setCurrentItem(listener.getCurrentPage());
-        //}
-
         today = getDateDay();
-
-
-
         //-- Test --
-        if (mMoodForTheDay == mBaseSQLite.getMoodDay(today)){
-            //mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
-            //mMoodForTheDay.setComment(getCommentFromSharefPref());
-            //mDataHelper.addComment(getCommentFromSharefPref(), mMoodForTheDay.getDate());
-            mBaseSQLite.updateMoodDay(mMoodForTheDay.getDate(), mMoodForTheDay);
-        } else {
-            mMoodForTheDay = new MoodForTheDay();
-            mMoodForTheDay.setDate(today);
-            //mMoodForTheDay.setColor(getColorMood(listener.getCurrentPage()));
-            //onCommentSelected(getCommentFromSharefPref());
-            mBaseSQLite.addMoodDay(mMoodForTheDay);
-
-        }
+        mBaseSQLite.getMoodDay(today);
+        mMoodForTheDay = new MoodForTheDay(today, Mood.NORMAL.getColorRes(), null);
+        mBaseSQLite.addMoodDay(mMoodForTheDay);
+        //if (mMoodForTheDay == mBaseSQLite.getMoodDay(today)){
+            //pager.getCurrentItem();
+            //mBaseSQLite.addMoodDay(mMoodForTheDay);
+        //} else {
+            //pager.setCurrentItem(2);
+            //mMoodForTheDay = new MoodForTheDay(today, Mood.NORMAL.getColorRes(), null);
+            //mBaseSQLite.addMoodDay(mMoodForTheDay);
+        //}
 
 
     }
@@ -142,10 +102,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(v == mBtnSendMessage) {
-            //composeSMS("Coucou", uri);
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"));
-            intent.putExtra(Intent.EXTRA_TEXT, "Coucou!! Petit test <3");
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("smiley_super_happy.png"));
+            intent.putExtra(Intent.EXTRA_TEXT, mBaseSQLite.getMoodDay(today).getComment());
+            //String path= "android.resource://com.menard.moodtracker"+R.drawable.smiley_super_happy;
+            //intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
             startActivity(intent);
         }
 
@@ -159,8 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public String getDateDay() {
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
         System.out.println(today);
-        //-- Save the current day in the Shared Preferences --
-
         return today.toString();
 
     }
@@ -168,9 +126,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mRealm != null) {
-            mRealm.close();
-        }
     }
 
     /**
@@ -179,18 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onCommentSelected(String comment) {
-        //mettre à jour le comment du jour avec SQL
+        mBaseSQLite.addComment(comment, today);
     }
 
-    public void composeSMS(@Nullable String message, Uri uri){
-        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
-        //intent.setType("text/plain");
-        //intent.putExtra(Intent.EXTRA_STREAM, image);
-        intent.putExtra("sms body", message);
-        //if(intent.resolveActivity(getPackageManager()) != null){
-        startActivity(intent);
-
-    }
 
 
 
@@ -200,15 +146,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public class VerticalViewPagerListener extends VerticalViewPager.SimpleOnPageChangeListener {
 
-        int currentPage;
-
         @Override
         public void onPageSelected(int position) {
-            //mettre à jour l'humeur du jour avec SQL
+            mBaseSQLite.addColor(position, today);
+            pager.setCurrentItem(position);
         }
 
-        //int getCurrentPage() {
-        //}
 
 
     }
