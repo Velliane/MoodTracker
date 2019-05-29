@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RawRes;
 import androidx.fragment.app.Fragment;
@@ -64,7 +65,7 @@ public class PageFragment extends Fragment {
         assert getArguments() != null;
         int position = getArguments().getInt(KEY_POSITION, -1);
         @ColorRes int color = getArguments().getInt(KEY_COLOR,-1);
-        int image = getArguments().getInt(KEY_IMAGE, -1);
+        @DrawableRes int image = getArguments().getInt(KEY_IMAGE, -1);
         @RawRes int audio = getArguments().getInt(KEY_AUDIO, -1);
 
         // Update widget

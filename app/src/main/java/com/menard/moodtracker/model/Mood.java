@@ -10,8 +10,8 @@ public enum Mood {
     SAD(R.drawable.smiley_sad, R.color.faded_red, R.raw.normal, 20/100),
     DISAPPOINTED(R.drawable.smiley_disappointed, R.color.warm_grey, R.raw.normal, 40/100),
     NORMAL(R.drawable.smiley_normal, R.color.cornflower_blue_65, R.raw.normal, 60/100),
-    HAPPY(R.drawable.smiley_happy, R.color.light_sage, R.raw.normal, 80/100),
-    VERYHAPPY(R.drawable.smiley_super_happy, R.color.banana_yellow, R.raw.normal, 1);
+    HAPPY(R.drawable.smiley_happy, R.color.light_sage, R.raw.happy, 80/100),
+    VERYHAPPY(R.drawable.smiley_super_happy, R.color.banana_yellow, R.raw.happy, 1);
 
 
 
@@ -40,6 +40,7 @@ public enum Mood {
         return colorRes;
     }
 
+    @RawRes
     public int getAudioRes() {
         return audioRes;
     }

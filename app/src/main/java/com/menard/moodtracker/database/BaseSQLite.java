@@ -1,4 +1,4 @@
-package com.menard.moodtracker.Database;
+package com.menard.moodtracker.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.menard.moodtracker.R;
 import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
 
@@ -67,6 +68,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         this.close();
     }
 
+
     /**
      * Add an object MoodForTheDay to database and update it if already exist
      * @param moodForTheDay the object
@@ -76,6 +78,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, moodForTheDay.getDate());
         values.put(COLUMN_COLOR, moodForTheDay.getColor());
+        values.put(COLUMN_COMMENT, moodForTheDay.getComment());
 
         open().insertWithOnConflict(TABLE_MOODFORTHEDAY, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -111,7 +114,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
      * @return the comment
      */
     public String getComment(String date){
-        String comment = "Aucun commentaire";
+        String comment = null;
 
         Cursor cursor = open().rawQuery("SELECT * FROM " + TABLE_MOODFORTHEDAY + " WHERE " +
                 COLUMN_DATE + "= \"" + date + "\"", null);
@@ -125,7 +128,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
     }
 
     /**
-     * Get an object by his date
+     * Get an object by his date else create new one
      * @param date Date
      * @return object MoodForTheDay
      */
@@ -141,6 +144,11 @@ public class BaseSQLite extends SQLiteOpenHelper {
             moodForTheDay.setColor(cursor.getInt(cursor.getColumnIndex(COLUMN_COLOR)));
             moodForTheDay.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
             cursor.close();
+        }else {
+            moodForTheDay = new MoodForTheDay();
+            moodForTheDay.setDate(date);
+            moodForTheDay.setColor(R.color.cornflower_blue_65);
+            moodForTheDay.setComment(null);
         }
         return moodForTheDay;
     }
@@ -152,11 +160,12 @@ public class BaseSQLite extends SQLiteOpenHelper {
     @NonNull
     public List<MoodForTheDay> getAllMoodDay() {
         List<MoodForTheDay> mList = new ArrayList<>();
-        //mDatabase = mBaseSQLite.getReadableDatabase();
 
         //-- Select all the object --
+        //String selectQuery = "SELECT * FROM " + TABLE_MOODFORTHEDAY
+                //+ " WHERE " + COLUMN_DATE + " BETWEEN " + "\"" +  LocalDate.now(ZoneId.systemDefault()).minusDays(1).toString() + "\""+ " AND " +"\"" + LocalDate.now(ZoneId.systemDefault()).minusDays(7).toString()+ "\""
+                //+ " ORDER BY " + COLUMN_DATE + " ASC ";
         String selectQuery = "SELECT * FROM " + TABLE_MOODFORTHEDAY
-                + " WHERE " + COLUMN_DATE + " BETWEEN " + "\"" +  LocalDate.now(ZoneId.systemDefault()).minusDays(1).toString() + "\""+ " AND " +"\"" + LocalDate.now(ZoneId.systemDefault()).minusDays(7).toString()+ "\""
                 + " ORDER BY " + COLUMN_DATE + " ASC ";
         Cursor cursor = open().rawQuery(selectQuery, null);
 

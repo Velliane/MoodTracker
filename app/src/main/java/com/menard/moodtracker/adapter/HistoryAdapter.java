@@ -26,6 +26,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
     private List<MoodForTheDay> Moods;
     private MoodForTheDay mMoodForTheDay;
+    View view;
 
 
     public HistoryAdapter(List<MoodForTheDay> items) {
@@ -42,7 +43,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.history_moods, viewGroup, false);
+        view = inflater.inflate(R.layout.history_moods, viewGroup, false);
         return new ListViewHolder(view);
     }
 
@@ -73,7 +74,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
                 //layoutParams = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT, 1);
                 //break;
         //}
-        myViewHolder.mLayout.setLayoutParams(layoutParams);
+        //myViewHolder.mLayout.setLayoutParams(layoutParams);
 
         // -- If comment not null --
         if (mMoodForTheDay.getComment() != null) {
@@ -91,19 +92,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
         String dayText = "";
         if (date.equals(today.minusDays(1).toString())) {
-            dayText = Resources.getSystem().getString(R.string.history_before_yesterday);
+            dayText = view.getContext().getResources().getString(R.string.history_yesterday);
         } else if (date.equals(today.minusDays(2).toString())) {
-            dayText = Resources.getSystem().getString(R.string.history_three_days_ago);
+            dayText = view.getContext().getResources().getString(R.string.history_before_yesterday);
         }else if(date.equals(today.minusDays(3).toString())) {
-            dayText = Resources.getSystem().getString(R.string.history_four_days_ago);
+            dayText = view.getContext().getResources().getString(R.string.history_three_days_ago);
         }else if (date.equals(today.minusDays(4).toString())) {
-            dayText = Resources.getSystem().getString(R.string.history_five_day_ago);
+            dayText = view.getContext().getResources().getString(R.string.history_four_days_ago);
         }else if (date.equals(today.minusDays(5).toString())) {
-            dayText = Resources.getSystem().getString(R.string.history_six_days_ago);
+            dayText = view.getContext().getResources().getString(R.string.history_five_day_ago);
         }else if (date.equals(today.minusDays(6).toString())) {
-            dayText = Resources.getSystem().getString(R.string.history_seven_days_ago);
+            dayText = view.getContext().getResources().getString(R.string.history_six_days_ago);
         }else if (date.equals(today.minusDays(7).toString())) {
-            dayText = Resources.getSystem().getString(R.string.history_a_week_ago);
+            dayText = view.getContext().getResources().getString(R.string.history_a_week_ago);
         }
 
         return dayText;

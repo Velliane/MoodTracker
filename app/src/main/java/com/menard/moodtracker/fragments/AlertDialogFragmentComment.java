@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -13,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.menard.moodtracker.Database.BaseSQLite;
+import com.menard.moodtracker.database.BaseSQLite;
 import com.menard.moodtracker.R;
 
 import org.threeten.bp.LocalDate;

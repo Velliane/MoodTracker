@@ -10,9 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.menard.moodtracker.Database.BaseSQLite;
+import com.menard.moodtracker.database.BaseSQLite;
 import com.menard.moodtracker.R;
-import com.menard.moodtracker.View.VerticalViewPager;
+import com.menard.moodtracker.view.VerticalViewPager;
 import com.menard.moodtracker.adapter.ViewPagerAdapter;
 import com.menard.moodtracker.fragments.AlertDialogFragmentComment;
 import com.menard.moodtracker.model.Mood;
@@ -31,17 +31,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mBtnShowHistory;
     /** Button Send Message */
     private ImageButton mBtnSendMessage;
-    /** MoodForTheDay */
-    public MoodForTheDay mMoodForTheDay;
 
-    /** VerticalViewPager Listener */
-    VerticalViewPagerListener listener;
     /** ViewPager */
-    ViewPager pager;
+    private ViewPager pager;
     /** BaseSQLite */
-    BaseSQLite mBaseSQLite;
+    private BaseSQLite mBaseSQLite;
 
-    String today;
+    private String today;
 
 
     @Override
@@ -64,26 +60,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //-- Instantiate ViewPager and set Adapter --
         pager = findViewById(R.id.activity_main_viewpager);
-        listener = new VerticalViewPagerListener();
+        VerticalViewPagerListener listener = new VerticalViewPagerListener();
         pager.setOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 
 
         today = getDateDay();
         //-- Test --
-        mBaseSQLite.getMoodDay(today);
-        mMoodForTheDay = new MoodForTheDay(today, Mood.NORMAL.getColorRes(), null);
-        mBaseSQLite.addMoodDay(mMoodForTheDay);
-        //if (mMoodForTheDay == mBaseSQLite.getMoodDay(today)){
-            //pager.getCurrentItem();
-            //mBaseSQLite.addMoodDay(mMoodForTheDay);
-        //} else {
-            //pager.setCurrentItem(2);
-            //mMoodForTheDay = new MoodForTheDay(today, Mood.NORMAL.getColorRes(), null);
-            //mBaseSQLite.addMoodDay(mMoodForTheDay);
-        //}
 
-
+        MoodForTheDay moodForTheDay = mBaseSQLite.getMoodDay(today);
+        mBaseSQLite.addMoodDay(moodForTheDay);
     }
 
     /**
@@ -116,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Return the date of the current Day
      * @return the date
      */
-    public String getDateDay() {
+    private String getDateDay() {
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
         System.out.println(today);
         return today.toString();
@@ -144,12 +130,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Listener for the VerticalViewPager
      */
-    public class VerticalViewPagerListener extends VerticalViewPager.SimpleOnPageChangeListener {
+    private class VerticalViewPagerListener extends VerticalViewPager.SimpleOnPageChangeListener {
 
         @Override
         public void onPageSelected(int position) {
             mBaseSQLite.addColor(position, today);
-            pager.setCurrentItem(position);
+            //pager.setCurrentItem(position);
         }
 
 

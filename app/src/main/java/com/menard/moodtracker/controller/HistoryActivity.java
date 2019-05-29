@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.menard.moodtracker.Database.BaseSQLite;
+import com.menard.moodtracker.database.BaseSQLite;
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.adapter.HistoryAdapter;
 import com.menard.moodtracker.model.MoodForTheDay;
@@ -14,9 +14,6 @@ import com.menard.moodtracker.model.MoodForTheDay;
 import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
-
-    /** RecyclerView */
-    RecyclerView mHistory;
 
 
     @Override
@@ -28,16 +25,16 @@ public class HistoryActivity extends AppCompatActivity {
         BaseSQLite baseSQLite = new BaseSQLite(this);
 
         //-- Recycler View --
-        mHistory = findViewById(R.id.history_list);
-        mHistory.setHasFixedSize(true);
+        RecyclerView history = findViewById(R.id.history_list);
+        history.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setReverseLayout(true);
-        mHistory.setLayoutManager(mLayoutManager);
+        history.setLayoutManager(mLayoutManager);
 
         //-- RecyclerView adapter --
         List<MoodForTheDay> moods = baseSQLite.getAllMoodDay();
         HistoryAdapter adapter = new HistoryAdapter(moods);
-        mHistory.setAdapter(adapter);
+        history.setAdapter(adapter);
         //adapter.setData(mMoods);
 
     }
