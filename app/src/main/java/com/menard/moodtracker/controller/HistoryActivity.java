@@ -28,7 +28,6 @@ public class HistoryActivity extends AppCompatActivity {
         RecyclerView history = findViewById(R.id.history_list);
         history.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mLayoutManager.setReverseLayout(true);
         history.setLayoutManager(mLayoutManager);
 
         //-- RecyclerView adapter --

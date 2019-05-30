@@ -31,7 +31,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
     private static final String COLUMN_COMMENT = "Comment";
 
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_MOODFORTHEDAY +
-            " (" + COLUMN_DATE + " TEXT PRIMARY KEY NOT NULL, "
+            " (" + COLUMN_DATE + " DATE PRIMARY KEY NOT NULL, "
             + COLUMN_COLOR + " INTEGER NOT NULL,"
             + COLUMN_COMMENT + " TEXT );";
 
@@ -162,11 +162,11 @@ public class BaseSQLite extends SQLiteOpenHelper {
         List<MoodForTheDay> mList = new ArrayList<>();
 
         //-- Select all the object --
-        //String selectQuery = "SELECT * FROM " + TABLE_MOODFORTHEDAY
-                //+ " WHERE " + COLUMN_DATE + " BETWEEN " + "\"" +  LocalDate.now(ZoneId.systemDefault()).minusDays(1).toString() + "\""+ " AND " +"\"" + LocalDate.now(ZoneId.systemDefault()).minusDays(7).toString()+ "\""
-                //+ " ORDER BY " + COLUMN_DATE + " ASC ";
+
         String selectQuery = "SELECT * FROM " + TABLE_MOODFORTHEDAY
-                + " ORDER BY " + COLUMN_DATE + " ASC ";
+                + " WHERE " +COLUMN_DATE +" NOT LIKE " + "\"" + LocalDate.now(ZoneId.systemDefault()).toString() + "\""
+                + " ORDER BY " + COLUMN_DATE + " ASC "
+                + " LIMIT " + 7;
         Cursor cursor = open().rawQuery(selectQuery, null);
 
         //-- Adding them to list --
