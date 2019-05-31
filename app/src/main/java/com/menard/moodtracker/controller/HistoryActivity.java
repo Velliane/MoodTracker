@@ -34,7 +34,7 @@ public class HistoryActivity extends AppCompatActivity {
         List<MoodForTheDay> moods = baseSQLite.getAllMoodDay();
         HistoryAdapter adapter = new HistoryAdapter(moods);
         history.setAdapter(adapter);
-        //adapter.setData(mMoods);
+
 
     }
 

@@ -1,6 +1,7 @@
 package com.menard.moodtracker.controller;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -61,13 +62,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //-- Instantiate ViewPager and set Adapter --
         pager = findViewById(R.id.activity_main_viewpager);
         VerticalViewPagerListener listener = new VerticalViewPagerListener();
+
+        //-- Get today's date
+        today = getDateDay();
         pager.setOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 
 
-        today = getDateDay();
-        //-- Test --
-
+        //-- Adding or updating the mood for the day
         MoodForTheDay moodForTheDay = mBaseSQLite.getMoodDay(today);
         mBaseSQLite.addMoodDay(moodForTheDay);
     }
@@ -135,6 +137,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onPageSelected(int position) {
             mBaseSQLite.addColor(position, today);
+
+            final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,Mood.values()[position].getAudioRes());
+            mediaPlayer.start();
+
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mediaPlayer.release();
+                }
+            });
             //pager.setCurrentItem(position);
         }
 

@@ -1,6 +1,5 @@
 package com.menard.moodtracker.fragments;
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.RelativeLayout;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.RawRes;
 import androidx.fragment.app.Fragment;
 
 import com.menard.moodtracker.R;
@@ -24,8 +22,6 @@ public class PageFragment extends Fragment {
     private static final String KEY_POSITION = "position";
     private static final String KEY_COLOR = "color";
     private static final String KEY_IMAGE = "image";
-    private static final String KEY_AUDIO = "audio";
-
 
 
     public PageFragment() {
@@ -37,7 +33,7 @@ public class PageFragment extends Fragment {
      * @param position position
      * @return A new instance of fragment PageFragment.
      */
-    public static PageFragment newInstance(int position, @ColorRes int color, int image, @RawRes int audio) {
+    public static PageFragment newInstance(int position, @ColorRes int color, int image) {
         // New fragment
         PageFragment fragment = new PageFragment();
         // Create bundle and adding data
@@ -45,11 +41,9 @@ public class PageFragment extends Fragment {
         args.putInt(KEY_POSITION, position);
         args.putInt(KEY_COLOR, color);
         args.putInt(KEY_IMAGE, image);
-        args.putInt(KEY_AUDIO, audio);
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -66,22 +60,12 @@ public class PageFragment extends Fragment {
         int position = getArguments().getInt(KEY_POSITION, -1);
         @ColorRes int color = getArguments().getInt(KEY_COLOR,-1);
         @DrawableRes int image = getArguments().getInt(KEY_IMAGE, -1);
-        @RawRes int audio = getArguments().getInt(KEY_AUDIO, -1);
 
         // Update widget
         relativeLayout.setBackgroundResource(color);
         imgView.setImageResource(image);
-        final MediaPlayer mediaPlayer = MediaPlayer.create(getContext(),audio);
-        mediaPlayer.start();
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mediaPlayer.release();
-            }
-        });
         Log.e(getClass().getSimpleName(), "Page number"+position);
-
 
         return view;
     }

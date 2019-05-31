@@ -106,7 +106,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         values.put(COLUMN_COLOR, Mood.values()[position].getColorRes());
 
         open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE+ "= \"" + date + "\"", null);
-    }
+}
 
     /**
      * Get the comment saved for the MoodForTheDay
@@ -135,7 +135,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
     @NonNull
     public MoodForTheDay getMoodDay(String date) {
         MoodForTheDay moodForTheDay = new MoodForTheDay();
-        //mDatabase = mBaseSQLite.getReadableDatabase();
 
         Cursor cursor = open().rawQuery("SELECT * FROM " + TABLE_MOODFORTHEDAY + " WHERE " +
                 COLUMN_DATE + "= \"" + date + "\"", null);

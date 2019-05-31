@@ -1,6 +1,5 @@
 package com.menard.moodtracker.adapter;
 
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
     private List<MoodForTheDay> Moods;
     private MoodForTheDay mMoodForTheDay;
-    View view;
+    private View view;
 
 
     public HistoryAdapter(List<MoodForTheDay> items) {
@@ -53,27 +52,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
         mMoodForTheDay = Moods.get(position);
 
         int width = myViewHolder.mLayout.getWidth();
-        //@ColorRes int color = mMoodForTheDay.getColor();
         myViewHolder.moodDate.setText(setDateText(mMoodForTheDay.getDate()));
         myViewHolder.mLayout.setBackgroundResource(mMoodForTheDay.getColor());
         ViewGroup.LayoutParams layoutParams = (new LinearLayout.LayoutParams(width * Mood.values()[position].getPercentWidth(), LinearLayout.LayoutParams.MATCH_PARENT, 1));
-        //switch (color) {
-            //case R.color.faded_red:
-                //layoutParams = new LinearLayout.LayoutParams(width * Mood.values()[position].getPercentWidth(), LinearLayout.LayoutParams.MATCH_PARENT, 1);
-                //break;
-            //case R.color.warm_grey:
-                //layoutParams = new LinearLayout.LayoutParams((width / 5) * 2, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-                //break;
-            //case R.color.cornflower_blue_65:
-                //layoutParams = new LinearLayout.LayoutParams((width / 5) * 3, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-                //break;
-            //case R.color.light_sage:
-                //layoutParams = new LinearLayout.LayoutParams((width / 5) * 4, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-                //break;
-            //case R.color.banana_yellow:
-                //layoutParams = new LinearLayout.LayoutParams(width, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-                //break;
-        //}
+
         //myViewHolder.mLayout.setLayoutParams(layoutParams);
 
         // -- If comment not null --
