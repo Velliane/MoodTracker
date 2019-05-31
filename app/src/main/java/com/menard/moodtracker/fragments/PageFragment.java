@@ -18,7 +18,7 @@ import com.menard.moodtracker.R;
 public class PageFragment extends Fragment {
 
 
-    // Keys for Bundle
+    /** Keys for Bundle */
     private static final String KEY_POSITION = "position";
     private static final String KEY_COLOR = "color";
     private static final String KEY_IMAGE = "image";
@@ -34,9 +34,9 @@ public class PageFragment extends Fragment {
      * @return A new instance of fragment PageFragment.
      */
     public static PageFragment newInstance(int position, @ColorRes int color, int image) {
-        // New fragment
+        //-- New fragment --
         PageFragment fragment = new PageFragment();
-        // Create bundle and adding data
+        //-- Create bundle and adding data --
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
         args.putInt(KEY_COLOR, color);
@@ -48,20 +48,20 @@ public class PageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        //-- Inflate the layout for this fragment --
         View view = inflater.inflate(R.layout.fragment_page, container, false);
 
-        // Implement widgets
+        //-- Implement widgets --
         RelativeLayout relativeLayout = view.findViewById(R.id.fragment_page_rootview);
         ImageView imgView = view.findViewById(R.id.activity_main_img_view);
 
-        // Get data from Bundle
+        //-- Get data from Bundle --
         assert getArguments() != null;
         int position = getArguments().getInt(KEY_POSITION, -1);
         @ColorRes int color = getArguments().getInt(KEY_COLOR,-1);
         @DrawableRes int image = getArguments().getInt(KEY_IMAGE, -1);
 
-        // Update widget
+        //-- Update widget --
         relativeLayout.setBackgroundResource(color);
         imgView.setImageResource(image);
 

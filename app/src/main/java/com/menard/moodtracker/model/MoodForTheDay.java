@@ -12,13 +12,6 @@ public class MoodForTheDay{
     private String mComment;
 
     // -- Constructor --
-    public MoodForTheDay(String day, @ColorRes int color, String comment) {
-        mDate = day;
-        mColor = color;
-        mComment = comment;
-
-    }
-
     public MoodForTheDay() {
 
     }

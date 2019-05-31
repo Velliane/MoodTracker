@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
+import com.menard.moodtracker.view.VerticalViewPager;
 
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
@@ -29,11 +30,13 @@ public class BaseSQLite extends SQLiteOpenHelper {
     private static final String COLUMN_DATE = "Date";
     private static final String COLUMN_COLOR = "Color";
     private static final String COLUMN_COMMENT = "Comment";
+    private static final String COLUMN_PAGE = "Page";
 
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_MOODFORTHEDAY +
             " (" + COLUMN_DATE + " DATE PRIMARY KEY NOT NULL, "
-            + COLUMN_COLOR + " INTEGER NOT NULL,"
-            + COLUMN_COMMENT + " TEXT );";
+            + COLUMN_COLOR + " INTEGER NOT NULL, "
+            + COLUMN_COMMENT + " TEXT, "
+            + COLUMN_PAGE + " INTEGER);";
 
 
     public BaseSQLite(@Nullable Context context) {
@@ -73,15 +76,46 @@ public class BaseSQLite extends SQLiteOpenHelper {
      * Add an object MoodForTheDay to database and update it if already exist
      * @param moodForTheDay the object
      */
-    public void addMoodDay(MoodForTheDay moodForTheDay) {
+    public void addMoodDay(MoodForTheDay moodForTheDay, int position) {
         //-- create a ContentValues  ->work like a HashMap
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, moodForTheDay.getDate());
-        values.put(COLUMN_COLOR, moodForTheDay.getColor());
+        values.put(COLUMN_COLOR, Mood.values()[position].getColorRes());
         values.put(COLUMN_COMMENT, moodForTheDay.getComment());
+        values.put(COLUMN_PAGE, position);
 
         open().insertWithOnConflict(TABLE_MOODFORTHEDAY, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
+    }
+
+    /**
+     * Save the current page
+     * @param date the date
+     * @param position the page
+     */
+    public void addPage(String date, int position){
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PAGE, position);
+
+        open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE + "= \"" + date + "\"", null);
+    }
+
+    /**
+     * Get the last page saved
+     * @param date the date
+     * @return the page
+     */
+    public int getPage(String date){
+        int position = 2;
+
+        Cursor cursor = open().rawQuery("SELECT * FROM " + TABLE_MOODFORTHEDAY + " WHERE " +
+                COLUMN_DATE + "= \"" + date + "\"", null);
+        if (cursor.moveToFirst()) {
+            position = cursor.getInt(cursor.getColumnIndex(COLUMN_PAGE));
+            cursor.close();
+        }
+
+        return position;
     }
 
     /**

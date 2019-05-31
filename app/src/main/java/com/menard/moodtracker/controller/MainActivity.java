@@ -32,12 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mBtnShowHistory;
     /** Button Send Message */
     private ImageButton mBtnSendMessage;
-
-    /** ViewPager */
-    private ViewPager pager;
     /** BaseSQLite */
     private BaseSQLite mBaseSQLite;
-
+    /** Today's date */
     private String today;
 
 
@@ -57,21 +54,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //-- 310ABP initialisation --
         AndroidThreeTen.init(this);
-
-
-        //-- Instantiate ViewPager and set Adapter --
-        pager = findViewById(R.id.activity_main_viewpager);
-        VerticalViewPagerListener listener = new VerticalViewPagerListener();
-
         //-- Get today's date
         today = getDateDay();
+
+        //-- Instantiate ViewPager and set Adapter and Listener--
+        ViewPager pager = findViewById(R.id.activity_main_viewpager);
+        VerticalViewPagerListener listener = new VerticalViewPagerListener();
         pager.setOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-
+        pager.setCurrentItem(mBaseSQLite.getPage(today));
 
         //-- Adding or updating the mood for the day
         MoodForTheDay moodForTheDay = mBaseSQLite.getMoodDay(today);
-        mBaseSQLite.addMoodDay(moodForTheDay);
+        mBaseSQLite.addMoodDay(moodForTheDay, pager.getCurrentItem());
     }
 
     /**
@@ -134,9 +129,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private class VerticalViewPagerListener extends VerticalViewPager.SimpleOnPageChangeListener {
 
+
         @Override
         public void onPageSelected(int position) {
             mBaseSQLite.addColor(position, today);
+            mBaseSQLite.addPage(today, position);
 
             final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,Mood.values()[position].getAudioRes());
             mediaPlayer.start();
@@ -147,8 +144,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mediaPlayer.release();
                 }
             });
-            //pager.setCurrentItem(position);
         }
+
+
+
 
 
 
