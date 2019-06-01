@@ -1,5 +1,6 @@
 package com.menard.moodtracker.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.menard.moodtracker.R;
@@ -24,8 +26,7 @@ import java.util.List;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListViewHolder> {
 
     private List<MoodForTheDay> Moods;
-    private MoodForTheDay mMoodForTheDay;
-    private View view;
+
 
 
     public HistoryAdapter(List<MoodForTheDay> items) {
@@ -42,21 +43,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        view = inflater.inflate(R.layout.history_moods, viewGroup, false);
+        View view = inflater.inflate(R.layout.history_moods, viewGroup, false);
         return new ListViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ListViewHolder myViewHolder, int position) {
 
-        mMoodForTheDay = Moods.get(position);
+        final MoodForTheDay mMoodForTheDay = Moods.get(position);
 
-        int width = myViewHolder.mLayout.getWidth();
-        myViewHolder.moodDate.setText(setDateText(mMoodForTheDay.getDate()));
+
+        myViewHolder.moodDate.setText(setDateText(mMoodForTheDay.getDate(), myViewHolder.itemView.getContext()));
         myViewHolder.mLayout.setBackgroundResource(mMoodForTheDay.getColor());
-        ViewGroup.LayoutParams layoutParams = (new LinearLayout.LayoutParams(width * Mood.values()[position].getPercentWidth(), LinearLayout.LayoutParams.MATCH_PARENT, 1));
+        ViewGroup.LayoutParams layoutParams = (new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, mMoodForTheDay.getMood().getPercentWidth()));
 
-        //myViewHolder.mLayout.setLayoutParams(layoutParams);
+        myViewHolder.mLayout.setLayoutParams(layoutParams);
 
         // -- If comment not null --
         if (mMoodForTheDay.getComment() != null) {
@@ -70,23 +71,23 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
         }
     }
 
-    private String setDateText(String date) {
+    private String setDateText(String date, Context context) {
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
         String dayText = "";
         if (date.equals(today.minusDays(1).toString())) {
-            dayText = view.getContext().getResources().getString(R.string.history_yesterday);
+            dayText = context.getResources().getString(R.string.history_yesterday);
         } else if (date.equals(today.minusDays(2).toString())) {
-            dayText = view.getContext().getResources().getString(R.string.history_before_yesterday);
+            dayText = context.getResources().getString(R.string.history_before_yesterday);
         }else if(date.equals(today.minusDays(3).toString())) {
-            dayText = view.getContext().getResources().getString(R.string.history_three_days_ago);
+            dayText = context.getResources().getString(R.string.history_three_days_ago);
         }else if (date.equals(today.minusDays(4).toString())) {
-            dayText = view.getContext().getResources().getString(R.string.history_four_days_ago);
+            dayText = context.getResources().getString(R.string.history_four_days_ago);
         }else if (date.equals(today.minusDays(5).toString())) {
-            dayText = view.getContext().getResources().getString(R.string.history_five_day_ago);
+            dayText = context.getResources().getString(R.string.history_five_day_ago);
         }else if (date.equals(today.minusDays(6).toString())) {
-            dayText = view.getContext().getResources().getString(R.string.history_six_days_ago);
+            dayText = context.getResources().getString(R.string.history_six_days_ago);
         }else if (date.equals(today.minusDays(7).toString())) {
-            dayText = view.getContext().getResources().getString(R.string.history_a_week_ago);
+            dayText = context.getResources().getString(R.string.history_a_week_ago);
         }
 
         return dayText;

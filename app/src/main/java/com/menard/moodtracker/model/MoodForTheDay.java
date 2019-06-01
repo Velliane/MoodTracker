@@ -9,6 +9,7 @@ public class MoodForTheDay{
     private String mDate;
     @ColorRes
     private int mColor;
+    private Mood mMood;
     private String mComment;
 
     // -- Constructor --
@@ -45,7 +46,11 @@ public class MoodForTheDay{
     }
 
 
+    public Mood getMood() {
+        return mMood;
+    }
 
-
-
+    public void setMood(Mood mood) {
+        mMood = mood;
+    }
 }

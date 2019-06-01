@@ -85,7 +85,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
         values.put(COLUMN_PAGE, position);
 
         open().insertWithOnConflict(TABLE_MOODFORTHEDAY, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-
     }
 
     /**
@@ -114,7 +113,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
             position = cursor.getInt(cursor.getColumnIndex(COLUMN_PAGE));
             cursor.close();
         }
-
         return position;
     }
 
@@ -140,7 +138,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         values.put(COLUMN_COLOR, Mood.values()[position].getColorRes());
 
         open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE+ "= \"" + date + "\"", null);
-}
+    }
 
     /**
      * Get the comment saved for the MoodForTheDay
@@ -149,16 +147,13 @@ public class BaseSQLite extends SQLiteOpenHelper {
      */
     public String getComment(String date){
         String comment = null;
-
         Cursor cursor = open().rawQuery("SELECT * FROM " + TABLE_MOODFORTHEDAY + " WHERE " +
                 COLUMN_DATE + "= \"" + date + "\"", null);
         if (cursor.moveToFirst()) {
             comment = cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT));
             cursor.close();
         }
-
         return comment;
-
     }
 
     /**
@@ -180,7 +175,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         }else {
             moodForTheDay = new MoodForTheDay();
             moodForTheDay.setDate(date);
-            moodForTheDay.setColor(R.color.cornflower_blue_65);
+            moodForTheDay.setColor(Mood.valueOf("NORMAL").getColorRes());
             moodForTheDay.setComment(null);
         }
         return moodForTheDay;
@@ -198,25 +193,20 @@ public class BaseSQLite extends SQLiteOpenHelper {
 
         String selectQuery = "SELECT * FROM " + TABLE_MOODFORTHEDAY
                 + " WHERE " +COLUMN_DATE +" NOT LIKE " + "\"" + LocalDate.now(ZoneId.systemDefault()).toString() + "\""
-                + " ORDER BY " + COLUMN_DATE + " ASC "
+                + " ORDER BY " + COLUMN_DATE + " DESC "
                 + " LIMIT " + 7;
         Cursor cursor = open().rawQuery(selectQuery, null);
 
         //-- Adding them to list --
-        if (cursor.moveToFirst()) {
-            do {
+        while (cursor.moveToNext()) {
                 MoodForTheDay moodForTheDay = new MoodForTheDay();
                 moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
                 moodForTheDay.setColor(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_COLOR))));
                 moodForTheDay.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
-
                 mList.add(moodForTheDay);
-            } while (cursor.moveToNext());
         }
         cursor.close();
         return mList;
     }
-
-
 
 }

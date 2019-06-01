@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.menard.moodtracker.database.BaseSQLite;
 import com.menard.moodtracker.R;
@@ -36,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BaseSQLite mBaseSQLite;
     /** Today's date */
     private String today;
-
+    /** Vertical ViewPager */
+    VerticalViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         today = getDateDay();
 
         //-- Instantiate ViewPager and set Adapter and Listener--
-        ViewPager pager = findViewById(R.id.activity_main_viewpager);
+        pager = findViewById(R.id.activity_main_viewpager);
         VerticalViewPagerListener listener = new VerticalViewPagerListener();
         pager.setOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
@@ -103,12 +102,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
         System.out.println(today);
         return today.toString();
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     /**
@@ -119,9 +123,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onCommentSelected(String comment) {
         mBaseSQLite.addComment(comment, today);
     }
-
-
-
 
 
     /**
