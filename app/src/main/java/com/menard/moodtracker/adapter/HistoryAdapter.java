@@ -10,17 +10,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
-
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
-
-import java.lang.reflect.Modifier;
 import java.util.List;
 
 

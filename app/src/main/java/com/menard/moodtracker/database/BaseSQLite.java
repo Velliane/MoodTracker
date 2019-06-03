@@ -5,15 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.menard.moodtracker.R;
 import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
-import com.menard.moodtracker.view.VerticalViewPager;
-
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 
@@ -51,7 +46,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE);
     }
 
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -70,7 +64,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
     public void close() {
         this.close();
     }
-
 
     /**
      * Add an object MoodForTheDay to database and update it if already exist
@@ -95,7 +88,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
     public void addPage(String date, int position){
         ContentValues values = new ContentValues();
         values.put(COLUMN_PAGE, position);
-
         open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE + "= \"" + date + "\"", null);
     }
 
@@ -124,7 +116,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
     public void addComment(String comment, String date) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_COMMENT, comment);
-
         open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE + "= \"" + date + "\"", null);
     }
 
@@ -136,7 +127,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
     public void addColor (int position, String date) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_COLOR, Mood.values()[position].getColorRes());
-
         open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE+ "= \"" + date + "\"", null);
     }
 

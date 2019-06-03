@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String today;
     /** Vertical ViewPager */
     VerticalViewPager pager;
+    MoodForTheDay moodForTheDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pager.setCurrentItem(mBaseSQLite.getPage(today));
 
         //-- Adding or updating the mood for the day
-        MoodForTheDay moodForTheDay = mBaseSQLite.getMoodDay(today);
+        moodForTheDay = mBaseSQLite.getMoodDay(today);
         mBaseSQLite.addMoodDay(moodForTheDay, pager.getCurrentItem());
     }
 
@@ -90,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
             startActivity(intent);
         }
-
     }
 
 
@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        moodForTheDay = mBaseSQLite.getMoodDay(today);
 
     }
 

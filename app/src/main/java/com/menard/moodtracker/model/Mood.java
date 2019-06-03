@@ -7,11 +7,11 @@ import androidx.annotation.RawRes;
 import com.menard.moodtracker.R;
 
 public enum Mood {
-    SAD(R.drawable.smiley_sad, R.color.faded_red, R.raw.normal, 0.2f),
-    DISAPPOINTED(R.drawable.smiley_disappointed, R.color.warm_grey, R.raw.normal, 0.4f),
+    SAD(R.drawable.smiley_sad, R.color.faded_red, R.raw.sad, 0.2f),
+    DISAPPOINTED(R.drawable.smiley_disappointed, R.color.warm_grey, R.raw.disappointed, 0.4f),
     NORMAL(R.drawable.smiley_normal, R.color.cornflower_blue_65, R.raw.normal, 0.6f),
     HAPPY(R.drawable.smiley_happy, R.color.light_sage, R.raw.happy, 0.8f),
-    VERYHAPPY(R.drawable.smiley_super_happy, R.color.banana_yellow, R.raw.happy, 1);
+    VERYHAPPY(R.drawable.smiley_super_happy, R.color.banana_yellow, R.raw.super_happy, 1);
 
 
 

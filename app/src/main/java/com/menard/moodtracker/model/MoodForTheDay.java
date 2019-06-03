@@ -9,7 +9,6 @@ public class MoodForTheDay{
     private String mDate;
     @ColorRes
     private int mColor;
-    private Mood mMood;
     private String mComment;
     private int mPage;
 
@@ -44,15 +43,6 @@ public class MoodForTheDay{
 
     public void setComment(String comment) {
         mComment = comment;
-    }
-
-
-    public Mood getMood() {
-        return mMood;
-    }
-
-    public void setMood(Mood mood) {
-        mMood = mood;
     }
 
     public int getPage() {

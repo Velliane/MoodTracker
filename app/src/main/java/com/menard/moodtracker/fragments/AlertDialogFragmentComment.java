@@ -7,14 +7,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
 import com.menard.moodtracker.database.BaseSQLite;
 import com.menard.moodtracker.R;
-
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 
@@ -69,7 +66,6 @@ public class AlertDialogFragmentComment extends DialogFragment {
         .create();
 
     }
-
 
     public interface Listener{
         void onCommentSelected(String comment);
