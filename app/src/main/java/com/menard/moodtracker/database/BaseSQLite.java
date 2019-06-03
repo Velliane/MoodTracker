@@ -175,7 +175,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         }else {
             moodForTheDay = new MoodForTheDay();
             moodForTheDay.setDate(date);
-            moodForTheDay.setColor(Mood.valueOf("NORMAL").getColorRes());
+            moodForTheDay.setColor(Mood.valueOf("HAPPY").getColorRes());
             moodForTheDay.setComment(null);
         }
         return moodForTheDay;
@@ -203,6 +203,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
                 moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
                 moodForTheDay.setColor(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_COLOR))));
                 moodForTheDay.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
+                moodForTheDay.setPage(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PAGE))));
                 mList.add(moodForTheDay);
         }
         cursor.close();

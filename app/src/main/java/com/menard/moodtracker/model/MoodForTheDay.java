@@ -11,6 +11,7 @@ public class MoodForTheDay{
     private int mColor;
     private Mood mMood;
     private String mComment;
+    private int mPage;
 
     // -- Constructor --
     public MoodForTheDay() {
@@ -52,5 +53,13 @@ public class MoodForTheDay{
 
     public void setMood(Mood mood) {
         mMood = mood;
+    }
+
+    public int getPage() {
+        return mPage;
+    }
+
+    public void setPage(int page) {
+        mPage = page;
     }
 }

@@ -20,6 +20,7 @@ import com.menard.moodtracker.model.MoodForTheDay;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 
@@ -55,7 +56,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
         myViewHolder.moodDate.setText(setDateText(mMoodForTheDay.getDate(), myViewHolder.itemView.getContext()));
         myViewHolder.mLayout.setBackgroundResource(mMoodForTheDay.getColor());
-        ViewGroup.LayoutParams layoutParams = (new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, mMoodForTheDay.getMood().getPercentWidth()));
+        ViewGroup.LayoutParams layoutParams = (new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, Mood.values()[mMoodForTheDay.getPage()].getPercentWidth()));
 
         myViewHolder.mLayout.setLayoutParams(layoutParams);
 
