@@ -97,7 +97,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
      * @return the page
      */
     public int getPage(String date){
-        int position = 2;
+        int position = 3;
 
         Cursor cursor = open().rawQuery("SELECT * FROM " + TABLE_MOODFORTHEDAY + " WHERE " +
                 COLUMN_DATE + "= \"" + date + "\"", null);
@@ -161,12 +161,14 @@ public class BaseSQLite extends SQLiteOpenHelper {
             moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
             moodForTheDay.setColor(cursor.getInt(cursor.getColumnIndex(COLUMN_COLOR)));
             moodForTheDay.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
+            moodForTheDay.setPage(cursor.getInt(cursor.getColumnIndex(COLUMN_PAGE)));
             cursor.close();
         }else {
             moodForTheDay = new MoodForTheDay();
             moodForTheDay.setDate(date);
             moodForTheDay.setColor(Mood.valueOf("HAPPY").getColorRes());
             moodForTheDay.setComment(null);
+            moodForTheDay.setPage(3);
         }
         return moodForTheDay;
     }

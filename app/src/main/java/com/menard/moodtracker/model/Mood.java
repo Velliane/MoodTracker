@@ -16,12 +16,12 @@ public enum Mood {
 
 
     @DrawableRes
-    private int smileyRes;
+    private final int smileyRes;
     @ColorRes
-    private int colorRes;
+    private final int colorRes;
     @RawRes
-    private int audioRes;
-    private float percentWidth;
+    private final int audioRes;
+    private final float percentWidth;
 
     Mood(@DrawableRes int smileyRes, @ColorRes int colorRes, @RawRes int audioRes, float percent){
         this.smileyRes = smileyRes;

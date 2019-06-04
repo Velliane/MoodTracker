@@ -1,9 +1,12 @@
 package com.menard.moodtracker.controller;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -20,7 +23,6 @@ import com.menard.moodtracker.model.MoodForTheDay;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AlertDialogFragmentComment.Listener {
 
 
@@ -35,10 +37,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /** Today's date */
     private String today;
     /** Vertical ViewPager */
-    VerticalViewPager pager;
-    MoodForTheDay moodForTheDay;
+    private VerticalViewPager pager;
+    private MoodForTheDay moodForTheDay;
 
     @Override
+    @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -85,10 +88,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(v == mBtnSendMessage) {
+            //Uri uri = Uri.parse(String.valueOf(Mood.values()[pager.getCurrentItem()].getSmileyRes()));
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"));
             intent.putExtra(Intent.EXTRA_TEXT, mBaseSQLite.getMoodDay(today).getComment());
-            //String path= "android.resource://com.menard.moodtracker"+R.drawable.smiley_super_happy;
-            //intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+            //intent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(intent);
         }
     }
@@ -104,16 +107,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return today.toString();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        moodForTheDay = mBaseSQLite.getMoodDay(today);
-
+        String date = getDateDay();
+        if (!date.equals(today)) {
+            today = date;
+            pager.setCurrentItem(3);
+        }
     }
 
     /**
