@@ -1,24 +1,22 @@
 package com.menard.moodtracker.controller;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.menard.moodtracker.database.BaseSQLite;
 import com.menard.moodtracker.R;
-import com.menard.moodtracker.view.VerticalViewPager;
 import com.menard.moodtracker.adapter.ViewPagerAdapter;
+import com.menard.moodtracker.database.BaseSQLite;
 import com.menard.moodtracker.fragments.AlertDialogFragmentComment;
 import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
+import com.menard.moodtracker.view.VerticalViewPager;
 
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
@@ -38,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String today;
     /** Vertical ViewPager */
     private VerticalViewPager pager;
-    private MoodForTheDay moodForTheDay;
 
     @Override
     @SuppressWarnings("deprecation")
@@ -68,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pager.setCurrentItem(mBaseSQLite.getPage(today));
 
         //-- Adding or updating the mood for the day
-        moodForTheDay = mBaseSQLite.getMoodDay(today);
+        MoodForTheDay moodForTheDay = mBaseSQLite.getMoodDay(today);
         mBaseSQLite.addMoodDay(moodForTheDay, pager.getCurrentItem());
     }
 
