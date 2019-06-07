@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         VerticalViewPagerListener listener = new VerticalViewPagerListener();
         pager.setOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-        pager.setCurrentItem(mBaseSQLite.getPage(today));
+        pager.setCurrentItem(mBaseSQLite.getMood(today));
 
         //-- Adding or updating the mood for the day
         MoodForTheDay moodForTheDay = mBaseSQLite.getMoodDay(today);
@@ -133,8 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onPageSelected(int position) {
-            //mBaseSQLite.addColor(position, today);
-            mBaseSQLite.addPage(today, position);
+            mBaseSQLite.addMood(today, position);
 
             final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,Mood.values()[position].getAudioRes());
             mediaPlayer.start();

@@ -25,7 +25,6 @@ public class PageFragment extends Fragment {
 
 
     public PageFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -34,7 +33,6 @@ public class PageFragment extends Fragment {
      * @return A new instance of fragment PageFragment.
      */
     public static PageFragment newInstance(int position, @ColorRes int color, int image) {
-        //-- New fragment --
         PageFragment fragment = new PageFragment();
         //-- Create bundle and adding data --
         Bundle args = new Bundle();
@@ -48,10 +46,8 @@ public class PageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //-- Inflate the layout for this fragment --
         View view = inflater.inflate(R.layout.fragment_page, container, false);
 
-        //-- Implement widgets --
         RelativeLayout relativeLayout = view.findViewById(R.id.fragment_page_rootview);
         ImageView imgView = view.findViewById(R.id.activity_main_img_view);
 
@@ -61,7 +57,6 @@ public class PageFragment extends Fragment {
         @ColorRes int color = getArguments().getInt(KEY_COLOR,-1);
         @DrawableRes int image = getArguments().getInt(KEY_IMAGE, -1);
 
-        //-- Update widget --
         relativeLayout.setBackgroundResource(color);
         imgView.setImageResource(image);
 

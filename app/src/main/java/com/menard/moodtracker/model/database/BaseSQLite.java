@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.menard.moodtracker.model.Mood;
+
 import com.menard.moodtracker.model.MoodForTheDay;
+
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 
@@ -29,13 +31,11 @@ public class BaseSQLite extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_MOODFORTHEDAY +
             " (" + COLUMN_DATE + " DATE PRIMARY KEY NOT NULL, "
-            //+ COLUMN_COLOR + " INTEGER NOT NULL, "
             + COLUMN_COMMENT + " TEXT, "
             + COLUMN_MOOD + " INTEGER);";
 
 
     public BaseSQLite(@Nullable Context context) {
-        //super(context, name, factory, version);
         super(context, NAME_DATABASE, null, VERSION_DATABASE);
         }
 
@@ -70,10 +70,8 @@ public class BaseSQLite extends SQLiteOpenHelper {
      * @param moodForTheDay the object
      */
     public void addMoodDay(MoodForTheDay moodForTheDay, int position) {
-        //-- create a ContentValues  ->work like a HashMap
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, moodForTheDay.getDate());
-        //values.put(COLUMN_COLOR, Mood.values()[position].getColorRes());
         values.put(COLUMN_COMMENT, moodForTheDay.getComment());
         values.put(COLUMN_MOOD, position);
 
@@ -81,22 +79,22 @@ public class BaseSQLite extends SQLiteOpenHelper {
     }
 
     /**
-     * Save the current page
+     * Save the selected Mood
      * @param date the date
      * @param position the page
      */
-    public void addPage(String date, int position){
+    public void addMood(String date, int position){
         ContentValues values = new ContentValues();
         values.put(COLUMN_MOOD, position);
         open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE + "= \"" + date + "\"", null);
     }
 
     /**
-     * Get the last page saved
+     * Get the last mood saved
      * @param date the date
      * @return the page
      */
-    public int getPage(String date){
+    public int getMood(String date){
         int position = 3;
 
         Cursor cursor = open().rawQuery("SELECT * FROM " + TABLE_MOODFORTHEDAY + " WHERE " +
@@ -119,16 +117,6 @@ public class BaseSQLite extends SQLiteOpenHelper {
         open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE + "= \"" + date + "\"", null);
     }
 
-    /**
-     * Save the color of the Mood
-     * @param position the page selected
-     * @param date the date
-     */
-    public void addColor (int position, String date) {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_COLOR, Mood.values()[position].getColorRes());
-        open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE+ "= \"" + date + "\"", null);
-    }
 
     /**
      * Get the comment saved for the MoodForTheDay
@@ -159,14 +147,12 @@ public class BaseSQLite extends SQLiteOpenHelper {
                 COLUMN_DATE + "= \"" + date + "\"", null);
         if (cursor.moveToFirst()) {
             moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
-            //moodForTheDay.setColor(cursor.getInt(cursor.getColumnIndex(COLUMN_COLOR)));
             moodForTheDay.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
             moodForTheDay.setMood(cursor.getInt(cursor.getColumnIndex(COLUMN_MOOD)));
             cursor.close();
         }else {
             moodForTheDay = new MoodForTheDay();
             moodForTheDay.setDate(date);
-            //moodForTheDay.setColor(Mood.valueOf("HAPPY").getColorRes());
             moodForTheDay.setComment(null);
             moodForTheDay.setMood(3);
         }
@@ -181,8 +167,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
     public List<MoodForTheDay> getAllMoodDay() {
         List<MoodForTheDay> mList = new ArrayList<>();
 
-        //-- Select all the object --
-
+        //-- Select the objects --
         String selectQuery = "SELECT * FROM " + TABLE_MOODFORTHEDAY
                 + " WHERE " +COLUMN_DATE +" NOT LIKE " + "\"" + LocalDate.now(ZoneId.systemDefault()).toString() + "\""
                 + " ORDER BY " + COLUMN_DATE + " DESC "

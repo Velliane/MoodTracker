@@ -8,13 +8,12 @@ public class MoodForTheDay{
     private String mComment;
     private int mMood;
 
-    // -- Constructor --
+
     public MoodForTheDay() {
 
     }
 
 
-    // -- Getter and Setter --
 
     public String getDate() {
         return mDate;
