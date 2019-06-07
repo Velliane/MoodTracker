@@ -1,4 +1,4 @@
-package com.menard.moodtracker.view;
+package com.menard.moodtracker.controller.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

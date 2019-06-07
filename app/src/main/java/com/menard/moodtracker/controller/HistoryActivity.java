@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.menard.moodtracker.database.BaseSQLite;
+import com.menard.moodtracker.model.database.BaseSQLite;
 import com.menard.moodtracker.R;
-import com.menard.moodtracker.adapter.HistoryAdapter;
+import com.menard.moodtracker.controller.adapter.HistoryAdapter;
 import com.menard.moodtracker.model.MoodForTheDay;
 
 import java.util.List;

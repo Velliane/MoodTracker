@@ -1,4 +1,4 @@
-package com.menard.moodtracker.fragments;
+package com.menard.moodtracker.controller.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import com.menard.moodtracker.database.BaseSQLite;
+import com.menard.moodtracker.model.database.BaseSQLite;
 import com.menard.moodtracker.R;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;

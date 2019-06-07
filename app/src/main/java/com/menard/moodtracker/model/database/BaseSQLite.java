@@ -1,4 +1,4 @@
-package com.menard.moodtracker.database;
+package com.menard.moodtracker.model.database;
 
 import android.content.ContentValues;
 import android.content.Context;

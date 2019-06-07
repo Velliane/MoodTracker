@@ -11,12 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.menard.moodtracker.R;
-import com.menard.moodtracker.adapter.ViewPagerAdapter;
-import com.menard.moodtracker.database.BaseSQLite;
-import com.menard.moodtracker.fragments.AlertDialogFragmentComment;
+import com.menard.moodtracker.controller.adapter.ViewPagerAdapter;
+import com.menard.moodtracker.model.database.BaseSQLite;
+import com.menard.moodtracker.controller.fragments.AlertDialogFragmentComment;
 import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
-import com.menard.moodtracker.view.VerticalViewPager;
+import com.menard.moodtracker.controller.view.VerticalViewPager;
 
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;

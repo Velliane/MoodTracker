@@ -1,4 +1,4 @@
-package com.menard.moodtracker.adapter;
+package com.menard.moodtracker.controller.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
