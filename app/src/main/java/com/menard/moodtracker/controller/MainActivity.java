@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onPageSelected(int position) {
-            mBaseSQLite.addColor(position, today);
+            //mBaseSQLite.addColor(position, today);
             mBaseSQLite.addPage(today, position);
 
             final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,Mood.values()[position].getAudioRes());

@@ -25,13 +25,13 @@ public class BaseSQLite extends SQLiteOpenHelper {
     private static final String COLUMN_DATE = "Date";
     private static final String COLUMN_COLOR = "Color";
     private static final String COLUMN_COMMENT = "Comment";
-    private static final String COLUMN_PAGE = "Page";
+    private static final String COLUMN_MOOD = "Mood";
 
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_MOODFORTHEDAY +
             " (" + COLUMN_DATE + " DATE PRIMARY KEY NOT NULL, "
-            + COLUMN_COLOR + " INTEGER NOT NULL, "
+            //+ COLUMN_COLOR + " INTEGER NOT NULL, "
             + COLUMN_COMMENT + " TEXT, "
-            + COLUMN_PAGE + " INTEGER);";
+            + COLUMN_MOOD + " INTEGER);";
 
 
     public BaseSQLite(@Nullable Context context) {
@@ -73,9 +73,9 @@ public class BaseSQLite extends SQLiteOpenHelper {
         //-- create a ContentValues  ->work like a HashMap
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, moodForTheDay.getDate());
-        values.put(COLUMN_COLOR, Mood.values()[position].getColorRes());
+        //values.put(COLUMN_COLOR, Mood.values()[position].getColorRes());
         values.put(COLUMN_COMMENT, moodForTheDay.getComment());
-        values.put(COLUMN_PAGE, position);
+        values.put(COLUMN_MOOD, position);
 
         open().insertWithOnConflict(TABLE_MOODFORTHEDAY, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
@@ -87,7 +87,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
      */
     public void addPage(String date, int position){
         ContentValues values = new ContentValues();
-        values.put(COLUMN_PAGE, position);
+        values.put(COLUMN_MOOD, position);
         open().update(TABLE_MOODFORTHEDAY, values, COLUMN_DATE + "= \"" + date + "\"", null);
     }
 
@@ -102,7 +102,7 @@ public class BaseSQLite extends SQLiteOpenHelper {
         Cursor cursor = open().rawQuery("SELECT * FROM " + TABLE_MOODFORTHEDAY + " WHERE " +
                 COLUMN_DATE + "= \"" + date + "\"", null);
         if (cursor.moveToFirst()) {
-            position = cursor.getInt(cursor.getColumnIndex(COLUMN_PAGE));
+            position = cursor.getInt(cursor.getColumnIndex(COLUMN_MOOD));
             cursor.close();
         }
         return position;
@@ -159,16 +159,16 @@ public class BaseSQLite extends SQLiteOpenHelper {
                 COLUMN_DATE + "= \"" + date + "\"", null);
         if (cursor.moveToFirst()) {
             moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
-            moodForTheDay.setColor(cursor.getInt(cursor.getColumnIndex(COLUMN_COLOR)));
+            //moodForTheDay.setColor(cursor.getInt(cursor.getColumnIndex(COLUMN_COLOR)));
             moodForTheDay.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
-            moodForTheDay.setPage(cursor.getInt(cursor.getColumnIndex(COLUMN_PAGE)));
+            moodForTheDay.setMood(cursor.getInt(cursor.getColumnIndex(COLUMN_MOOD)));
             cursor.close();
         }else {
             moodForTheDay = new MoodForTheDay();
             moodForTheDay.setDate(date);
-            moodForTheDay.setColor(Mood.valueOf("HAPPY").getColorRes());
+            //moodForTheDay.setColor(Mood.valueOf("HAPPY").getColorRes());
             moodForTheDay.setComment(null);
-            moodForTheDay.setPage(3);
+            moodForTheDay.setMood(3);
         }
         return moodForTheDay;
     }
@@ -193,9 +193,9 @@ public class BaseSQLite extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
                 MoodForTheDay moodForTheDay = new MoodForTheDay();
                 moodForTheDay.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_DATE)));
-                moodForTheDay.setColor(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_COLOR))));
+                //moodForTheDay.setColor(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_COLOR))));
                 moodForTheDay.setComment(cursor.getString(cursor.getColumnIndex(COLUMN_COMMENT)));
-                moodForTheDay.setPage(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_PAGE))));
+                moodForTheDay.setMood(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COLUMN_MOOD))));
                 mList.add(moodForTheDay);
         }
         cursor.close();
