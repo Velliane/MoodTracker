@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_page_rootview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/activity_main_img_view"
         android:layout_width="230dp"
         android:layout_height="230dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/smiley_normal" />
+        android:src="@drawable/smiley_normal"
+        android:contentDescription="@string/xml_img_view_smiley" />
 
 </RelativeLayout>

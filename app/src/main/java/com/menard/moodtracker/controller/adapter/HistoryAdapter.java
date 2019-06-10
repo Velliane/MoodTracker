@@ -11,27 +11,24 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.menard.moodtracker.R;
 import com.menard.moodtracker.model.Mood;
 import com.menard.moodtracker.model.MoodForTheDay;
+
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
+
 import java.util.List;
 
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListViewHolder> {
 
-    private List<MoodForTheDay> Moods;
-
+    private final List<MoodForTheDay> moods;
 
 
     public HistoryAdapter(List<MoodForTheDay> items) {
-        Moods = items;
-    }
-
-    public void setData(List<MoodForTheDay> items) {
-        Moods = items;
-        notifyDataSetChanged();
+        moods = items;
     }
 
 
@@ -46,7 +43,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ListViewHolder myViewHolder, int position) {
 
-        final MoodForTheDay mMoodForTheDay = Moods.get(position);
+        final MoodForTheDay mMoodForTheDay = moods.get(position);
 
 
         myViewHolder.moodDate.setText(setDateText(mMoodForTheDay.getDate(), myViewHolder.itemView.getContext()));
@@ -74,15 +71,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
             dayText = context.getResources().getString(R.string.history_yesterday);
         } else if (date.equals(today.minusDays(2).toString())) {
             dayText = context.getResources().getString(R.string.history_before_yesterday);
-        }else if(date.equals(today.minusDays(3).toString())) {
+        } else if (date.equals(today.minusDays(3).toString())) {
             dayText = context.getResources().getString(R.string.history_three_days_ago);
-        }else if (date.equals(today.minusDays(4).toString())) {
+        } else if (date.equals(today.minusDays(4).toString())) {
             dayText = context.getResources().getString(R.string.history_four_days_ago);
-        }else if (date.equals(today.minusDays(5).toString())) {
+        } else if (date.equals(today.minusDays(5).toString())) {
             dayText = context.getResources().getString(R.string.history_five_day_ago);
-        }else if (date.equals(today.minusDays(6).toString())) {
+        } else if (date.equals(today.minusDays(6).toString())) {
             dayText = context.getResources().getString(R.string.history_six_days_ago);
-        }else if (date.equals(today.minusDays(7).toString())) {
+        } else if (date.equals(today.minusDays(7).toString())) {
             dayText = context.getResources().getString(R.string.history_a_week_ago);
         }
 
@@ -92,7 +89,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
 
     @Override
     public int getItemCount() {
-        return Moods.size();
+        return moods.size();
     }
 
 
@@ -111,6 +108,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
             mLayout = itemView.findViewById(R.id.history_layout);
             moodDate = itemView.findViewById(R.id.history_txt_view);
             btnComment = itemView.findViewById(R.id.history_btn_comments);
+        }
     }
-}
 }

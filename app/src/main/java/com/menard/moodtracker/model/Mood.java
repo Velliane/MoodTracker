@@ -14,7 +14,6 @@ public enum Mood {
     VERYHAPPY(R.drawable.smiley_super_happy, R.color.banana_yellow, R.raw.super_happy, 1);
 
 
-
     @DrawableRes
     private final int smileyRes;
     @ColorRes
@@ -23,7 +22,7 @@ public enum Mood {
     private final int audioRes;
     private final float percentWidth;
 
-    Mood(@DrawableRes int smileyRes, @ColorRes int colorRes, @RawRes int audioRes, float percent){
+    Mood(@DrawableRes int smileyRes, @ColorRes int colorRes, @RawRes int audioRes, float percent) {
         this.smileyRes = smileyRes;
         this.colorRes = colorRes;
         this.audioRes = audioRes;

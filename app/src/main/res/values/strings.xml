@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">MoodTracker</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Alert Dialog -->
     <string name="alert_dialog_title">Commentaire</string>
     <string name="alert_dialog_btn_back">Annuler</string>
@@ -18,6 +16,12 @@
     <string name="history_six_days_ago">Il y a six jours</string>
     <string name="history_a_week_ago">Il y a une semaine</string>
 
+    <!-- XML Content description -->
+    <string name="xml_btn_add_comment">The button \'Add Comment\'</string>
+    <string name="xml_btn_send_message">The button \'Send Message\'</string>
+    <string name="xml_btn_show_history">The button \'Show History\'</string>
+    <string name="xml_btn_read_comment">The button \'Read Comment\'</string>
+    <string name="xml_img_view_smiley">The smiley of the Mood</string>
 
 
 </resources>

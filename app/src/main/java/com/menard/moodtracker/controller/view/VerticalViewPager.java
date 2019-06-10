@@ -1,5 +1,6 @@
 package com.menard.moodtracker.controller.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -24,13 +25,13 @@ public class VerticalViewPager extends ViewPager {
     }
 
 
-
     /**
      * Method to flip the X and Y
+     *
      * @param motionEvent MotionEvent
      * @return MotionEvent
      */
-    private MotionEvent flipXY(MotionEvent motionEvent){
+    private MotionEvent flipXY(MotionEvent motionEvent) {
         float width = getWidth();
         float height = getHeight();
 
@@ -42,12 +43,15 @@ public class VerticalViewPager extends ViewPager {
 
     }
 
+
     /**
      * Call method flipYX when touch the screen
+     *
      * @param motionEvent MotionEvent
      * @return boolean
      */
-    public boolean onTouchEvent(MotionEvent motionEvent){
+    @SuppressLint("ClickableViewAccessibility")
+    public boolean onTouchEvent(MotionEvent motionEvent) {
         boolean toHandle = super.onTouchEvent(flipXY(motionEvent));
         flipXY(motionEvent);
         return toHandle;
@@ -55,7 +59,7 @@ public class VerticalViewPager extends ViewPager {
 
 
     //-- PageTransformer --
-    private static final class VerticalPageTransformer implements ViewPager.PageTransformer{
+    private static final class VerticalPageTransformer implements ViewPager.PageTransformer {
 
         @Override
         public void transformPage(View view, float position) {

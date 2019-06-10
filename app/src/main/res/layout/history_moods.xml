@@ -2,8 +2,9 @@
 <LinearLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:weightSum="1">
 
     <LinearLayout
@@ -12,12 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.8"
         android:orientation="horizontal">
-    <TextView
-        android:id="@+id/history_txt_view"
-        android:layout_width="match_parent"
-        android:layout_height="85dp">
 
-    </TextView>
+        <TextView
+            android:id="@+id/history_txt_view"
+            android:layout_width="match_parent"
+            android:layout_height="85dp">
+
+        </TextView>
 
     </LinearLayout>
 
@@ -28,9 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="15dp"
-        android:src="@drawable/ic_comment_black_48px"
         android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_comment_black_48px"
         android:visibility="invisible"
-        />
+        android:contentDescription="@string/xml_btn_read_comment" />
 
 </LinearLayout>

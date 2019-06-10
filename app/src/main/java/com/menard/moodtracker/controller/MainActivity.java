@@ -24,21 +24,32 @@ import org.threeten.bp.ZoneId;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AlertDialogFragmentComment.Listener {
 
 
-    /** Button add comments */
+    /**
+     * Button add comments
+     */
     private ImageButton mBtnAddComments;
-    /** Button Show History */
+    /**
+     * Button Show History
+     */
     private ImageButton mBtnShowHistory;
-    /** Button Send Message */
+    /**
+     * Button Send Message
+     */
     private ImageButton mBtnSendMessage;
-    /** BaseSQLite */
+    /**
+     * BaseSQLite
+     */
     private BaseSQLite mBaseSQLite;
-    /** Today's date */
+    /**
+     * Today's date
+     */
     private String today;
-    /** Vertical ViewPager */
+    /**
+     * Vertical ViewPager
+     */
     private VerticalViewPager pager;
 
     @Override
-    @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -60,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //-- Instantiate ViewPager and set Adapter and Listener--
         pager = findViewById(R.id.activity_main_viewpager);
         VerticalViewPagerListener listener = new VerticalViewPagerListener();
-        pager.setOnPageChangeListener(listener);
+        pager.addOnPageChangeListener(listener);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem(mBaseSQLite.getMood(today));
 
@@ -76,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         if (v == mBtnAddComments) {
-           new AlertDialogFragmentComment().newInstance().show(getSupportFragmentManager(), "AlertDialog");
+            AlertDialogFragmentComment.newInstance().show(getSupportFragmentManager(), "AlertDialog");
         }
 
         if (v == mBtnShowHistory) {
@@ -84,11 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(historyActivity);
         }
 
-        if(v == mBtnSendMessage) {
-            //Uri uri = Uri.parse(String.valueOf(Mood.values()[pager.getCurrentItem()].getSmileyRes()));
+        if (v == mBtnSendMessage) {
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"));
             intent.putExtra(Intent.EXTRA_TEXT, mBaseSQLite.getMoodDay(today).getComment());
-            //intent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(intent);
         }
     }
@@ -96,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Return the date of the current Day
+     *
      * @return the date
      */
     private String getDateDay() {
@@ -117,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Saving the comment get from the AlertDialogFragmentComment
+     *
      * @param comment the comment
      */
     @Override
@@ -135,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onPageSelected(int position) {
             mBaseSQLite.addMood(today, position);
 
-            final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,Mood.values()[position].getAudioRes());
+            final MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, Mood.values()[position].getAudioRes());
             mediaPlayer.start();
 
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -145,10 +156,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }
-
-
-
-
 
 
     }

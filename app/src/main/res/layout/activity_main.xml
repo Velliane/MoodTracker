@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,8 +10,7 @@
     <com.menard.moodtracker.controller.view.VerticalViewPager
         android:id="@+id/activity_main_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.menard.moodtracker.controller.view.VerticalViewPager>
+        android:layout_height="match_parent"/>
 
 
     <ImageButton
@@ -24,7 +22,7 @@
         android:layout_alignParentBottom="true"
         android:background="?android:selectableItemBackground"
         android:src="@drawable/ic_note_add_black"
-        />
+        android:contentDescription="@string/xml_btn_add_comment" />
 
     <ImageButton
         android:id="@+id/activity_send_message_btn"
@@ -35,18 +33,18 @@
         android:layout_alignParentBottom="true"
         android:background="?android:selectableItemBackground"
         android:src="@drawable/ic_send_black_48px"
-        />
+        android:contentDescription="@string/xml_btn_send_message" />
 
     <ImageButton
-    android:id="@+id/activity_main_history_btn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginEnd="15dp"
-    android:layout_marginBottom="20dp"
-    android:src="@drawable/ic_history_black"
-    android:background="?android:selectableItemBackground"
-    />
+        android:id="@+id/activity_main_history_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_history_black"
+        android:background="?android:selectableItemBackground"
+        android:contentDescription="@string/xml_btn_show_history" />
 
 </RelativeLayout>

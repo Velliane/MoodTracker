@@ -1,7 +1,6 @@
 package com.menard.moodtracker.controller.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,9 @@ import com.menard.moodtracker.R;
 public class PageFragment extends Fragment {
 
 
-    /** Keys for Bundle */
-    private static final String KEY_POSITION = "position";
+    /**
+     * Keys for Bundle
+     */
     private static final String KEY_COLOR = "color";
     private static final String KEY_IMAGE = "image";
 
@@ -28,15 +28,13 @@ public class PageFragment extends Fragment {
     }
 
     /**
-     *
-     * @param position position
      * @return A new instance of fragment PageFragment.
      */
-    public static PageFragment newInstance(int position, @ColorRes int color, int image) {
+    public static PageFragment newInstance(@ColorRes int color, int image) {
         PageFragment fragment = new PageFragment();
         //-- Create bundle and adding data --
         Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
+
         args.putInt(KEY_COLOR, color);
         args.putInt(KEY_IMAGE, image);
         fragment.setArguments(args);
@@ -53,14 +51,13 @@ public class PageFragment extends Fragment {
 
         //-- Get data from Bundle --
         assert getArguments() != null;
-        int position = getArguments().getInt(KEY_POSITION, -1);
-        @ColorRes int color = getArguments().getInt(KEY_COLOR,-1);
+
+        @ColorRes int color = getArguments().getInt(KEY_COLOR, -1);
         @DrawableRes int image = getArguments().getInt(KEY_IMAGE, -1);
 
         relativeLayout.setBackgroundResource(color);
         imgView.setImageResource(image);
 
-        Log.e(getClass().getSimpleName(), "Page number"+position);
 
         return view;
     }

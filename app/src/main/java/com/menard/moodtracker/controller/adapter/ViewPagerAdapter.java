@@ -10,7 +10,6 @@ import com.menard.moodtracker.model.Mood;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
 
-
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -18,7 +17,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        return PageFragment.newInstance(position, Mood.values()[position].getColorRes(), Mood.values()[position].getSmileyRes());
+        return PageFragment.newInstance(Mood.values()[position].getColorRes(), Mood.values()[position].getSmileyRes());
     }
 
 

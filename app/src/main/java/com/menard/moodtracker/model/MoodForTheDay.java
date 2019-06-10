@@ -1,7 +1,6 @@
 package com.menard.moodtracker.model;
 
-public class MoodForTheDay{
-
+public class MoodForTheDay {
 
 
     private String mDate;
@@ -12,7 +11,6 @@ public class MoodForTheDay{
     public MoodForTheDay() {
 
     }
-
 
 
     public String getDate() {
